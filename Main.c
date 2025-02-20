@@ -1,59 +1,35 @@
 #include <stdio.h>
-
-// Estrutura que define as características de um produto
-typedef struct {
-    char nome[50];        // Nome do produto
-    float valorCompra;    // Valor de compra do produto
-    float valorVenda;     // Valor de venda do produto
-    float lucro;          // Lucro obtido com a venda do produto
-    int qtdVendas;        // Quantidade de vendas do produto
-} Produto;
-
-typedef struct {
-    char rua[50];
-    char bairro[20];
-    char cidade[20];
-    char estado[50];
-    int numeroCasa;
-} Endereco;
-
-typedef struct{
-    char nome[50];
-    char cpf[15];
-    char telefone;
-    Endereco endereco;
-    char Email[50];
-
-} Cliente;
-
-
-typedef struct {
-    Produto produto;
-    int qtdProduto;
-    float valor;
-} Compras;
- 
-
-typedef struct {
-    Compras *compras;
-    float valorTotal; 
-    Cliente cliente;
-    char formaPagamento[25];
-    char status[30];
-} NotaFiscal;
-
-
-typedef struct {
-    char nomeFantasia[50];
-    char CNPJ[15];
-    Endereco endereco;
-    char email[25];
-    char telefone[25];
-} Fornecedor;
-
+#include <string.h>
+#include "Structs.h"
+#include "Funcoes.h"
 
 int main() {
+    int opcao = 0;
 
-    
+    while (opcao != 4) {
+        system("cls");
+        printf("------------------------------------------------\n");
+        printf("                     SISTEMA\n");
+        printf("------------------------------------------------\n\n");
+        printf("> O que deseja fazer?\n");
+        printf("[1] Cadastrar\n");
+        printf("[2] Visualizar lista\n");
+        printf("[3]Zerar lista");
+        printf("[4] Sair\n\n");
+        scanf("%d", &opcao);
+
+        if (opcao == 1) {
+            cadastrar();
+        } else if (opcao == 2) {
+            mostrarLista();
+        } else if (opcao == 3){
+            zerarLista();
+        } else if (opcao != 4) {
+            printf("-> Opcao invalida!\n");
+        }
+    }
+
+    printf("-> Saindo...\n");
+
     return 0;
 }
