@@ -4,8 +4,8 @@
 #include <stdlib.h>
 #include "Structs.h"
 
-int zerarLista() {
-    FILE* txt = fopen(".\\arquivo.txt", "w");
+int zerarLista(FILE *txt) {
+    txt = fopen(".\\arquivo.txt", "w");
     if (txt == NULL) {
         printf("-> Problema ao tentar abrir arquivo...\n");
         return 1;
@@ -23,11 +23,11 @@ void mostrarproduto(Produto produto) {
     printf("Valor de Compra: %.2f\n", produto.valorCompra);
     printf("Valor de venda: %.2f\n", produto.valorVenda);
     printf("Lucro: : %.2f\n", produto.lucro);
-    printf ("Quantidade de vendas : %d", produto.qtdVendas);
+    printf ("Quantidade de vendas : %d\n", produto.qtdVendas);
     printf("------------------------------------------------\n");
 }
 
-int cadastrar() {
+int cadastrar(FILE *txt) {
     int qtdProdutos;
 
     system("cls");
@@ -45,32 +45,35 @@ int cadastrar() {
         printf("------------------------------------------------\n");
         printf("                    Produtos %d\n", p+1);
         printf("------------------------------------------------\n\n");
- 
+
         printf("> Digite o nome:\n");
-          scanf(" %[^\n]", produto[p].nome);
-        getchar();  
+        scanf(" %[^\n]", produto[p].nome);
+        printf("Teste: %s\n", produto[p].nome);
         printf("> Digite o valor da compras : \n");
-          scanf("%f", &produto[p].valorCompra);
-        getchar();  
+        scanf("%f", &produto[p].valorCompra);
+        printf("Teste: %.2f\n", produto[p].valorCompra);
         printf("> Digite o valor da venda:\n");
-          scanf("%f", &produto[p].valorVenda);  
+        scanf("%f", &produto[p].valorVenda);
+        printf("Teste: %.2f\n", produto[p].valorVenda);
         printf("> Digite o lucro: \n");
-          scanf("%f", &produto[p].lucro); 
+        scanf("%f", &produto[p].lucro);
+        printf("Teste: %.2f\n", produto[p].lucro);
         printf("> Digite a quantidade de vendas: \n");
-          scanf("%d", &produto[p].qtdVendas);  
+        scanf("%d", &produto[p].qtdVendas);
+        printf("Teste: %d\n", produto[p].qtdVendas);
     }
 
-    FILE* txt = fopen(".\\arquivo.txt", "a");
+    txt = fopen(".\\arquivo.txt", "a");
     if (txt == NULL) {
         printf("-> Problema ao tentar abrir arquivo...\n");
         return 1;
     }
 
     for (int p = 0; p < qtdProdutos; p++) {
-        fprintf(txt, "%s\n%.2f/%.2f/%.2f\n%d\n\n", 
-        produto[p].nome, 
-        produto[p].valorCompra, 
-        produto[p].valorVenda, 
+        fprintf(txt, "%s\n %.2f\n %.2f\n %.2f\n %d\n\n",
+        produto[p].nome,
+        produto[p].valorCompra,
+        produto[p].valorVenda,
         produto[p].lucro,
         produto[p].qtdVendas);
     }
@@ -79,13 +82,14 @@ int cadastrar() {
 
     fclose(txt);
     system("pause");
+    getchar();
     return 0;
 }
 
 /*
     Mostra a lista de cadastrados.
 */
-int mostrarLista() {
+int mostrarLista(FILE *txt) {
     Produto produtoAux;
 
     system("cls");
@@ -93,7 +97,7 @@ int mostrarLista() {
     printf("                  CADASTRADOS\n");
     printf("------------------------------------------------\n");
 
-    FILE* txt = fopen(".\\arquivo.txt", "r");
+    txt = fopen(".\\arquivo.txt", "r");
     if (txt == NULL) {
         printf("-> Problema ao tentar abrir arquivo...\n");
         return 1;
@@ -109,7 +113,8 @@ int mostrarLista() {
 
     fclose(txt);
     system("pause");
-    
+    getchar();
+
     return 0;
 }
 
