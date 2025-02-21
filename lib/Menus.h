@@ -84,8 +84,11 @@ int menuEstoque() {
         break;
     case 2:
         system("cls");
-        if (verProdutos() == 1) {
-            printf("-> Erro ao listar Produtos!\n");
+        int vf = verEstoque();
+        if (vf == 1) {
+            printf("-> Problema ao listar itens do Estoque!\n");
+        } else if (vf == -1) {
+            printf("-> Ainda não há nenhum Item cadastrado no Estoque!\n");
         }
         system("pause");
         break;
@@ -180,8 +183,11 @@ int menuClientes() {
         break;
     case 2:
         system("cls");
-        if (verClientes() == 1) {
-            printf("-> Erro ao listar Clientes!\n");
+        int vf = verClientes();
+        if (vf == 1) {
+            printf("-> Problema ao listar Clientes!\n");
+        } else if (vf == -1) {
+            printf("-> Ainda não há nenhum Cliente cadastrado!\n");
         }
         system("pause");
         break;
@@ -270,8 +276,11 @@ int menuFornecedores() {
         break;
     case 2:
         system("cls");
-        if (verFornecedores() == 1) {
-            printf("-> Erro ao listar Fornecedores!\n");
+        int vf = verFornecedores();
+        if (vf == 1) {
+            printf("-> Problema ao listar Fornecedores!\n");
+        } else if (vf == -1) {
+            printf("-> Ainda não há nenhum Fornecedor cadastrado!\n");
         }
         system("pause");
         break;

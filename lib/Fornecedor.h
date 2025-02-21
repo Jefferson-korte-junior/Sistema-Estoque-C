@@ -5,7 +5,7 @@
 #include <stdlib.h>
 #include "Structs.h"
 
-#define PATH_FORNECEDOR "../txt/Fornecedor.txt"
+#define PATH_FORNECEDOR "../txt/Fornecedores.txt"
 
 /*
     Zera a lista de fornecedores.
@@ -18,20 +18,6 @@ int zerarFornecedores() {
     }
     fclose(txt);
     return 0;
-}
-
-/*
-    Mostra um fornecedor.
-*/
-void mostrarfornecedor(Fornecedor fornecedor) {
-    printf("-----------------------------------------------------\n");
-    printf("> %s\n", fornecedor.nomeFantasia);
-    printf("-----------------------------------------------------\n");
-    printf("    + CNPJ: %s\n", fornecedor.cnpj);
-    printf("    + Telefone: %s\n", fornecedor.telefone);
-    printf("    + Endereço: %s, %d, %s, %s, %s\n", fornecedor.endereco->rua, fornecedor.endereco->numeroCasa, fornecedor.endereco->bairro, fornecedor.endereco->cidade, fornecedor.endereco->estado);
-    printf("    + Email: %s\n", fornecedor.email);
-    printf("    + Data de Cadastro: %02d/%02d/%02d\n\n", fornecedor.dataCadastro.dia, fornecedor.dataCadastro.mes, fornecedor.dataCadastro.ano);
 }
 
 /*
@@ -61,6 +47,20 @@ int cadastrarFornecedor(Fornecedor* fornecedor) {
 }
 
 /*
+    Mostra um fornecedor.
+*/
+void mostrarfornecedor(Fornecedor fornecedor) {
+    printf("-----------------------------------------------------\n");
+    printf("> %s\n", fornecedor.nomeFantasia);
+    printf("-----------------------------------------------------\n");
+    printf("    + CNPJ: %s\n", fornecedor.cnpj);
+    printf("    + Telefone: %s\n", fornecedor.telefone);
+    printf("    + Endereço: %s, %d, %s, %s, %s\n", fornecedor.endereco->rua, fornecedor.endereco->numeroCasa, fornecedor.endereco->bairro, fornecedor.endereco->cidade, fornecedor.endereco->estado);
+    printf("    + Email: %s\n", fornecedor.email);
+    printf("    + Data de Cadastro: %02d/%02d/%02d\n\n", fornecedor.dataCadastro.dia, fornecedor.dataCadastro.mes, fornecedor.dataCadastro.ano);
+}
+
+/*
     Mostra a lista de cadastrados.
 */
 int verFornecedores() {
@@ -71,15 +71,15 @@ int verFornecedores() {
         return 1;
     }
     while (fscanf(txt, " %[^\n]", fornecedor.nomeFantasia) != EOF) {
-        fscanf(txt, "%s", fornecedor.cnpj);
-        fscanf(txt, "%[^\n]", fornecedor.telefone);
-        fscanf(txt, "%[^\n]", fornecedor.endereco->rua);
-        fscanf(txt, "%d", &fornecedor.endereco->numeroCasa);
-        fscanf(txt, "%[^\n]", fornecedor.endereco->bairro);
-        fscanf(txt, "%[^\n]", fornecedor.endereco->cidade);
-        fscanf(txt, "%[^\n]", fornecedor.endereco->estado);
-        fscanf(txt, "%s", fornecedor.email);
-        fscanf(txt, "%d/%d/%d", &fornecedor.dataCadastro.dia, &fornecedor.dataCadastro.mes, &fornecedor.dataCadastro.ano);
+        fscanf(txt, " %s", fornecedor.cnpj);
+        fscanf(txt, " %[^\n]", fornecedor.telefone);
+        fscanf(txt, " %[^\n]", fornecedor.endereco->rua);
+        fscanf(txt, " %d", &fornecedor.endereco->numeroCasa);
+        fscanf(txt, " %[^\n]", fornecedor.endereco->bairro);
+        fscanf(txt, " %[^\n]", fornecedor.endereco->cidade);
+        fscanf(txt, " %[^\n]", fornecedor.endereco->estado);
+        fscanf(txt, " %s", fornecedor.email);
+        fscanf(txt, " %d/%d/%d", &fornecedor.dataCadastro.dia, &fornecedor.dataCadastro.mes, &fornecedor.dataCadastro.ano);
         mostrarfornecedor(fornecedor);
     }
     fclose(txt);

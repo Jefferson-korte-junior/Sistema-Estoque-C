@@ -21,20 +21,6 @@ int zerarProdutos() {
 }
 
 /*
-    Mostra um produto.
-*/
-void mostrarProduto(Produto produto) {
-    printf("-----------------------------------------------------\n");
-    printf("# %s #\n", produto.nome);
-    printf("-----------------------------------------------------\n");
-    printf("    + Valor de Compra: %.2f\n", produto.valorCompra);
-    printf("    + Valor de venda: %.2f\n", produto.valorVenda);
-    printf("    + Lucro: %.2f\n", produto.lucro);
-    printf("    + Quantidade: %d\n", produto.qtd);
-    printf("    + Data de Cadastro: %02d/%02d/%02d\n\n", produto.dataCadastro.dia, produto.dataCadastro.mes, produto.dataCadastro.ano);
-}
-
-/*
     Cadastra um produto.
 */
 int cadastrarProduto(Produto* produto) {
@@ -57,9 +43,23 @@ int cadastrarProduto(Produto* produto) {
 }
 
 /*
+    Mostra um produto.
+*/
+void mostrarProduto(Produto produto) {
+    printf("-----------------------------------------------------\n");
+    printf("# %s #\n", produto.nome);
+    printf("-----------------------------------------------------\n");
+    printf("    + Valor de Compra: %.2f\n", produto.valorCompra);
+    printf("    + Valor de venda: %.2f\n", produto.valorVenda);
+    printf("    + Lucro: %.2f\n", produto.lucro);
+    printf("    + Quantidade: %d\n", produto.qtd);
+    printf("    + Data de Cadastro: %02d/%02d/%02d\n\n", produto.dataCadastro.dia, produto.dataCadastro.mes, produto.dataCadastro.ano);
+}
+
+/*
     Mostra a lista de cadastrados.
 */
-int verProdutos() {
+int verEstoque() {
     Produto produtoAux;
     FILE* txt = fopen(PATH_PRODUTO, "r");
     if (txt == NULL) {
@@ -67,7 +67,7 @@ int verProdutos() {
         return 1;
     }
     while (fscanf(txt, " %[^\n]", produtoAux.nome) != EOF) {
-        fscanf(txt, "%f", &produtoAux.valorCompra);
+        fscanf(txt, " %f", &produtoAux.valorCompra);
         fscanf(txt, " %f", &produtoAux.valorVenda);
         fscanf(txt, " %f", &produtoAux.lucro);
         fscanf(txt, " %d", &produtoAux.qtd);
