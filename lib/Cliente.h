@@ -1,17 +1,17 @@
-#ifndef PRODUTO_H
-#define PRODUTO_H
+#ifndef CLIENTE_H
+#define CLIENTE_H
 
 #include <stdio.h>
 #include <stdlib.h>
 #include "Structs.h"
 
-#define PATH_PRODUTO "../txt/Estoque.txt"
+#define PATH_CLIENTE "../txt/Cliente.txt"
 
 /*
     Zera a lista de produtos.
 */
-int zerarLista() {
-    FILE* txt = fopen(PATH_PRODUTO, "w");
+int zerarListaCliente() {
+    FILE* txt = fopen(PATH_CLIENTE, "w");
     if (txt == NULL) {
         printf("-> Problema ao tentar abrir arquivo...\n");
         return 1;
@@ -21,37 +21,46 @@ int zerarLista() {
 }
 
 /*
-    Mostra um produto.
+    Mostra um cliente.
 */
-void mostrarproduto(Produto produto) {
+void mostrarCliente(Cliente cliente) {
     printf("-----------------------------------------------------\n");
-    printf("# %s #\n", produto.nome);
+    printf("# %s #\n", cliente.nome);
     printf("-----------------------------------------------------\n");
-    printf("    + Valor de Compra: %.2f\n", produto.valorCompra);
-    printf("    + Valor de venda: %.2f\n", produto.valorVenda);
-    printf("    + Lucro: %.2f\n", produto.lucro);
-    printf("    + Quantidade: %d\n", produto.qtd);
-    printf("    + Data de Cadastro: %02d/%02d/%02d\n\n", produto.dataCadastro.dia, produto.dataCadastro.mes, produto.dataCadastro.ano);
+    printf("    + CPF: %.2f\n", cliente.cpf);
+    printf("    + Telefone: %s\n", cliente.telefone);
+    printf("    + Endereco: %s\n%d\n%s\n%s\n%s\n",
+    cliente->enderecoCliente->rua,
+    cliente->enderecoCliente->numeroCasa,
+    cliente->enderecoCliente->bairro,
+    cliente->enderecoCliente->cidade,
+    cliente->enderecoCliente->estado); //endereço
+    printf("    + Email: %d\n", cleinte.email);
+    printf("    + Data de Cadastro: %02d/%02d/%02d\n\n", cliente.dataCadastro.dia, cliente.dataCadastro.mes, cliente.dataCadastro.ano);
 }
 
 /*
-    Cadastra um produto.
+    Cadastra um cliente.
 */
-int cadastrar(Produto* produto) {
-    FILE* txt = fopen(PATH_PRODUTO, "a");
+int cadastrarCliente(Cliente* cliente) {
+    FILE* txt = fopen(PATH_CLIENTE, "a");
     if (txt == NULL) {
         printf("-> Problema ao tentar abrir arquivo...\n");
         return 1;
     }
-    fprintf(txt, "%s\n%.2f\n%.2f\n%.2f\n%d\n%02d/%02d/%02d\n\n",
-    (*produto).nome,
-    (*produto).valorCompra,
-    (*produto).valorVenda,
-    (*produto).lucro,
-    (*produto).qtd,
-    (*produto).dataCadastro.dia,
-    (*produto).dataCadastro.mes,
-    (*produto).dataCadastro.ano);
+    fprintf(txt, "%s\n%s\n%s\n%s\n%d\n%s\n%s\n%a\n%s\n%02d/%02d/%02d\n\n",
+    (*cliente).nome,
+    (*cliente).cpf,
+    (*cleinte).telefone,
+    cliente->enderecoCliente->rua,
+    cliente->enderecoCliente->numeroCasa,
+    cliente->enderecoCliente->bairro,
+    cliente->enderecoCliente->cidade,
+    cliente->enderecoCliente->estado),
+    (*Cliente).email,
+    (*cliente).dataCadastro.dia,
+    (*cliente).dataCadastro.mes,
+    (*cliente).dataCadastro.ano);
     fclose(txt);
     return 0;
 }
@@ -59,20 +68,24 @@ int cadastrar(Produto* produto) {
 /*
     Mostra a lista de cadastrados.
 */
-int verProdutos() {
-    Produto produtoAux;
-    FILE* txt = fopen(PATH_PRODUTO, "r");
+int verClientes() {
+    Cliente clienteAux;
+    FILE* txt = fopen(PATH_CLIENTE, "r");
     if (txt == NULL) {
         printf("-> Problema ao tentar abrir arquivo...\n");
         return 1;
     }
-    while (fscanf(txt, " %[^\n]", produtoAux.nome) != EOF) {
-        fscanf(txt, "%f", &produtoAux.valorCompra);
-        fscanf(txt, " %f", &produtoAux.valorVenda);
-        fscanf(txt, " %f", &produtoAux.lucro);
-        fscanf(txt, " %d", &produtoAux.qtd);
-        fscanf(txt, " %d/%d/%d", &produtoAux.dataCadastro.dia, &produtoAux.dataCadastro.mes, &produtoAux.dataCadastro.ano);
-        mostrarproduto(produtoAux);
+    while (fscanf(txt, " %[^\n]", clienteAux.nome) != EOF) {
+        fscanf(txt, "%[^\n]", &clienteAux.cpf);
+        fscanf(txt, " %[^\n]", &clienteAux.telefone);
+        fscanf(txt, " %[^\n],%d, %[^\n], %[^\n], %[^\n]", cliente->enderecoCliente->rua,
+        &clienteAux->enderecoCliente->numeroCasa,
+        &clienteAux->enderecoCliente->bairro,
+        &clienteAux->enderecoCliente->cidade,
+        &clienteAux->enderecoCliente->estado);
+        fscanf(txt, " %[^\n]", &clienteAux.email);
+        fscanf(txt, " %d/%d/%d", &clienteAux.dataCadastro.dia, &clienteAux.dataCadastro.mes, &clienteAux.dataCadastro.ano);
+        mostrarcliente(clienteAux);
     }
     fclose(txt);
     return 0;
