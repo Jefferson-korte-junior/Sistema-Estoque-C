@@ -25,7 +25,7 @@ int zerarFornecedores() {
 */
 void mostrarfornecedor(Fornecedor fornecedor) {
     printf("-----------------------------------------------------\n");
-    printf("# %s #\n", fornecedor.nomeFantasia);
+    printf("> %s\n", fornecedor.nomeFantasia);
     printf("-----------------------------------------------------\n");
     printf("    + CNPJ: %s\n", fornecedor.cnpj);
     printf("    + Telefone: %s\n", fornecedor.telefone);
@@ -64,23 +64,23 @@ int cadastrarFornecedor(Fornecedor* fornecedor) {
     Mostra a lista de cadastrados.
 */
 int verFornecedores() {
-    Fornecedor fornecedorAux;
+    Fornecedor fornecedor;
     FILE* txt = fopen(PATH_FORNECEDOR, "r");
     if (txt == NULL) {
         printf("-> Problema ao tentar abrir arquivo...\n");
         return 1;
     }
-    while (fscanf(txt, " %[^\n]", fornecedorAux.nomeFantasia) != EOF) {
-        fscanf(txt, "%s", fornecedorAux.cnpj);
-        fscanf(txt, " %s", fornecedorAux.telefone);
-        fscanf(txt, " %s", fornecedorAux.endereco->rua);
-        fscanf(txt, " %d", &fornecedorAux.endereco->numeroCasa);
-        fscanf(txt, " %s", fornecedorAux.endereco->bairro);
-        fscanf(txt, " %s", fornecedorAux.endereco->cidade);
-        fscanf(txt, " %s", fornecedorAux.endereco->estado);
-        fscanf(txt, " %s", fornecedorAux.email);
-        fscanf(txt, "%d/%d/%d", &fornecedorAux.dataCadastro.dia, &fornecedorAux.dataCadastro.mes, &fornecedorAux.dataCadastro.ano);
-        mostrarfornecedor(fornecedorAux);
+    while (fscanf(txt, " %[^\n]", fornecedor.nomeFantasia) != EOF) {
+        fscanf(txt, "%s", fornecedor.cnpj);
+        fscanf(txt, "%[^\n]", fornecedor.telefone);
+        fscanf(txt, "%[^\n]", fornecedor.endereco->rua);
+        fscanf(txt, "%d", &fornecedor.endereco->numeroCasa);
+        fscanf(txt, "%[^\n]", fornecedor.endereco->bairro);
+        fscanf(txt, "%[^\n]", fornecedor.endereco->cidade);
+        fscanf(txt, "%[^\n]", fornecedor.endereco->estado);
+        fscanf(txt, "%s", fornecedor.email);
+        fscanf(txt, "%d/%d/%d", &fornecedor.dataCadastro.dia, &fornecedor.dataCadastro.mes, &fornecedor.dataCadastro.ano);
+        mostrarfornecedor(fornecedor);
     }
     fclose(txt);
     return 0;
