@@ -10,7 +10,7 @@
 /*
     Zera a lista de produtos.
 */
-int zerarLista() {
+int zerarProdutos() {
     FILE* txt = fopen(PATH_PRODUTO, "w");
     if (txt == NULL) {
         printf("-> Problema ao tentar abrir arquivo...\n");
@@ -23,7 +23,7 @@ int zerarLista() {
 /*
     Mostra um produto.
 */
-void mostrarproduto(Produto produto) {
+void mostrarProduto(Produto produto) {
     printf("-----------------------------------------------------\n");
     printf("# %s #\n", produto.nome);
     printf("-----------------------------------------------------\n");
@@ -37,21 +37,21 @@ void mostrarproduto(Produto produto) {
 /*
     Cadastra um produto.
 */
-int cadastrar(Produto* produto) {
+int cadastrarProduto(Produto* produto) {
     FILE* txt = fopen(PATH_PRODUTO, "a");
     if (txt == NULL) {
         printf("-> Problema ao tentar abrir arquivo...\n");
         return 1;
     }
     fprintf(txt, "%s\n%.2f\n%.2f\n%.2f\n%d\n%02d/%02d/%02d\n\n",
-    (*produto).nome,
-    (*produto).valorCompra,
-    (*produto).valorVenda,
-    (*produto).lucro,
-    (*produto).qtd,
-    (*produto).dataCadastro.dia,
-    (*produto).dataCadastro.mes,
-    (*produto).dataCadastro.ano);
+    produto->nome,
+    produto->valorCompra,
+    produto->valorVenda,    
+    produto->lucro, 
+    produto->qtd,
+    produto->dataCadastro.dia,
+    produto->dataCadastro.mes,
+    produto->dataCadastro.ano);
     fclose(txt);
     return 0;
 }
@@ -72,7 +72,7 @@ int verProdutos() {
         fscanf(txt, " %f", &produtoAux.lucro);
         fscanf(txt, " %d", &produtoAux.qtd);
         fscanf(txt, " %d/%d/%d", &produtoAux.dataCadastro.dia, &produtoAux.dataCadastro.mes, &produtoAux.dataCadastro.ano);
-        mostrarproduto(produtoAux);
+        mostrarProduto(produtoAux);
     }
     fclose(txt);
     return 0;

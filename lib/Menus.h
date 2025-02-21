@@ -5,6 +5,7 @@
 #include <stdlib.h> 
 #include <time.h>
 #include "Produto.h"
+#include "Fornecedor.h"
 #include "Structs.h"
 
 // Protótipos
@@ -89,7 +90,7 @@ int menuEstoque() {
         break;
     case 3: 
         produto = novoProduto();
-        if (produto != NULL && cadastrar(produto) == 0) {
+        if (produto != NULL && cadastrarProduto(produto) == 0) {
             printf("-> Produto cadastrado com sucesso!\n");
         } else {
             printf("-> Erro ao cadastrar produto!\n");
@@ -229,6 +230,7 @@ Cliente* novoCliente() {
     Menu dos Fornecedores:
 */
 int menuFornecedores() {
+    Fornecedor* fornecedor = NULL;
     int menu = 0;
     system("cls");
     printf("-----------------------------------------------------\n");
@@ -240,10 +242,28 @@ int menuFornecedores() {
     scanf("%d", &menu);
     switch (menu) {
     case 1:
+        system("cls");
+        printf("-> NADA FEITO AINDA <-\n");
+        system("pause");
         break;
     case 2:
+        system("cls");
+        if (verFornecedores() == 1) {
+            printf("-> Erro ao listar produtos!\n");
+        }
+        system("pause");
         break;
-    case 3:
+    case 3: 
+        fornecedor = novoFornecedor();
+        if (fornecedor != NULL && cadastrarFornecedor(fornecedor) == 0) {
+            printf("-> Produto cadastrado com sucesso!\n");
+        } else {
+            printf("-> Erro ao cadastrar produto!\n");
+        }
+        system("pause");
+        break;
+    case 4:
+        printf("-> Voltando...\n");
         return 0;
     default:
         printf("-> Opção inválida!\n");
@@ -342,7 +362,6 @@ Endereco* novoEndereco() {
         return NULL;
     }
     // Rua
-    system("cls");
     printf("> Digite a rua:\n");
     if (scanf(" %[^\n]", (*novoEndereco).rua) == 0) {
         free(novoEndereco);

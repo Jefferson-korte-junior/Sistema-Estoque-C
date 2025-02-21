@@ -1,8 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "lib\Produto.h"
-#include "lib\Structs.h"
-#include "lib\Menus.h"
+#include "lib/Menus.h"
 
 int main() {
     menuPrincipal();
