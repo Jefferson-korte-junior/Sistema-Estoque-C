@@ -47,7 +47,7 @@ int cadastrarProduto(Produto* produto) {
 */
 void mostrarProduto(Produto produto) {
     printf("-----------------------------------------------------\n");
-    printf("# %s #\n", produto.nome);
+    printf("> %s\n", produto.nome);
     printf("-----------------------------------------------------\n");
     printf("    + Valor de Compra: %.2f\n", produto.valorCompra);
     printf("    + Valor de venda: %.2f\n", produto.valorVenda);
@@ -60,19 +60,25 @@ void mostrarProduto(Produto produto) {
     Mostra a lista de cadastrados.
 */
 int verEstoque() {
-    Produto produtoAux;
+    int vf = 0;
+    Produto produto;
     FILE* txt = fopen(PATH_PRODUTO, "r");
     if (txt == NULL) {
         printf("-> Problema ao tentar abrir arquivo...\n");
         return 1;
     }
-    while (fscanf(txt, " %[^\n]", produtoAux.nome) != EOF) {
-        fscanf(txt, " %f", &produtoAux.valorCompra);
-        fscanf(txt, " %f", &produtoAux.valorVenda);
-        fscanf(txt, " %f", &produtoAux.lucro);
-        fscanf(txt, " %d", &produtoAux.qtd);
-        fscanf(txt, " %d/%d/%d", &produtoAux.dataCadastro.dia, &produtoAux.dataCadastro.mes, &produtoAux.dataCadastro.ano);
-        mostrarProduto(produtoAux);
+    while (fscanf(txt, " %[^\n]", produto.nome) != EOF) {
+        fscanf(txt, " %f", &produto.valorCompra);
+        fscanf(txt, " %f", &produto.valorVenda);
+        fscanf(txt, " %f", &produto.lucro);
+        fscanf(txt, " %d", &produto.qtd);
+        fscanf(txt, " %d/%d/%d", &produto.dataCadastro.dia, &produto.dataCadastro.mes, &produto.dataCadastro.ano);
+        mostrarProduto(produto);
+        vf++;
+    }
+    if (vf == 0) {
+        return -1;
+
     }
     fclose(txt);
     return 0;
