@@ -65,30 +65,40 @@ void mostrarCliente(Cliente cliente) {
 */
 int verClientes() {
     int vf = 0;
-    Cliente cliente;
+    Cliente clienteAux;
+    clienteAux.endereco = (Endereco*) malloc(sizeof(Endereco)); // Aloca endereço
+
     FILE* txt = fopen(PATH_CLIENTE, "r");
     if (txt == NULL) {
         printf("-> Problema ao tentar abrir arquivo...\n");
         return 1;
     }
-    while (fscanf(txt, " %[^\n]", cliente.nome) != EOF) {
-        fscanf(txt, " %s", cliente.cpf);
-        fscanf(txt, " %[^\n]", cliente.telefone);
-        fscanf(txt, " %[^\n]", cliente.endereco->rua);
-        fscanf(txt, " %d", &cliente.endereco->numeroCasa);
-        fscanf(txt, " %[^\n]", cliente.endereco->bairro);
-        fscanf(txt, " %[^\n]", cliente.endereco->cidade);
-        fscanf(txt, " %[^\n]", cliente.endereco->estado);
-        fscanf(txt, " %s", cliente.email);
-        fscanf(txt, " %d/%d/%d", &cliente.dataCadastro.dia, &cliente.dataCadastro.mes, &cliente.dataCadastro.ano);
-        mostrarCliente(cliente);
+
+    while (fscanf(txt, " %[^\n]", clienteAux.nome) != EOF) {
+        fscanf(txt, " %s", clienteAux.cpf);
+        fscanf(txt, " %[^\n]", clienteAux.telefone);
+        fscanf(txt, " %[^\n]", clienteAux.endereco->rua);
+        fscanf(txt, " %d", &clienteAux.endereco->numeroCasa);
+        fscanf(txt, " %[^\n]", clienteAux.endereco->bairro);
+        fscanf(txt, " %[^\n]", clienteAux.endereco->cidade); // Alterado
+        fflush(stdin);
+        fscanf(txt, " %[^\n]", clienteAux.endereco->estado); // Alterado
+        fscanf(txt, " %s", clienteAux.email);
+        fscanf(txt, " %d/%d/%d", &clienteAux.dataCadastro.dia, &clienteAux.dataCadastro.mes, &clienteAux.dataCadastro.ano);
+
+        mostrarCliente(clienteAux);
         vf++;
     }
+
+    free(clienteAux.endereco); // Libera memória alocada
+
     if (vf == 0) {
         return -1;
     }
+
     fclose(txt);
     return 0;
 }
+
 
 #endif

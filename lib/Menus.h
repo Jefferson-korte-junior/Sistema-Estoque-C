@@ -250,6 +250,13 @@ Cliente* novoCliente() {
         free(novoCliente);
         return NULL;
     }
+
+    // Data de Cadastro
+    time_t t = time(NULL);
+    struct tm tm = *localtime(&t);
+    (*novoCliente).dataCadastro.dia = tm.tm_mday;
+    (*novoCliente).dataCadastro.mes = tm.tm_mon + 1;
+    (*novoCliente).dataCadastro.ano = tm.tm_year + 1900;
     return novoCliente;
 }
 
@@ -388,42 +395,49 @@ NotaFiscal* novaNotaFiscal() {
     Novo Endereço:
 */
 Endereco* novoEndereco() {
-    // Aloca Endereço
+    // Aloca memória para o endereço
     Endereco* novoEndereco = (Endereco*) malloc(sizeof(Endereco));
     if (novoEndereco == NULL) {
         return NULL;
     }
+
     // Rua
     printf("> Digite a rua:\n");
-    if (scanf(" %[^\n]", (*novoEndereco).rua) == 0) {
+    if (scanf(" %[^\n]", novoEndereco->rua) == 0) {
         free(novoEndereco);
         return NULL;
     }
+
     // Bairro
     printf("> Digite o bairro:\n");
-    if (scanf("%s", (*novoEndereco).bairro) == 0) {
+    if (scanf(" %[^\n]", novoEndereco->bairro) == 0) {
         free(novoEndereco);
         return NULL;
     }
+
     // Cidade
     printf("> Digite a cidade:\n");
-    if (scanf("%s", (*novoEndereco).cidade) == 0) {
+    if (scanf(" %[^\n]", novoEndereco->cidade) == 0) {
         free(novoEndereco);
         return NULL;
     }
+
     // Estado
     printf("> Digite o estado:\n");
-    if (scanf("%s", (*novoEndereco).estado) == 0) {
+    if (scanf(" %[^\n]", novoEndereco->estado) == 0) {
         free(novoEndereco);
         return NULL;
     }
+
     // Número
-    printf("> Digite o número:\n");
-    if (scanf("%d", &(*novoEndereco).numeroCasa) == 0) {
+    printf("> Digite o número da casa:\n");
+    if (scanf("%d", &novoEndereco->numeroCasa) == 0) {
         free(novoEndereco);
         return NULL;
     }
+
     return novoEndereco;
 }
+
 
 #endif
