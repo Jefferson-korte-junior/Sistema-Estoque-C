@@ -51,14 +51,26 @@ int cadastrarProduto(Produto* produto) {
     Mostra um produto.
 */
 void mostrarProduto(Produto produto) {
-    printf("-----------------------------------------------------\n");
-    printf("> %s\n", produto.nome);
-    printf("-----------------------------------------------------\n");
-    printf("  + Valor de Compra: %.2f\n", produto.valorCompra);
-    printf("  + Valor de venda: %.2f\n", produto.valorVenda);
-    printf("  + Lucro: %.2f\n", produto.lucro);
-    printf("  + Quantidade: %d\n", produto.qtd);
-    printf("  + Data de Cadastro: %02d/%02d/%02d\n\n", produto.dataCadastro.dia, produto.dataCadastro.mes, produto.dataCadastro.ano);
+    char valorCompra[30], valorVenda[30], lucro[30], qtd[30];
+    sprintf(valorCompra, "%.2f", produto.valorCompra);
+    sprintf(valorVenda, "%.2f", produto.valorVenda);
+    sprintf(lucro, "%.2f", produto.lucro);
+    sprintf(qtd, "%d", produto.qtd);
+
+    // Data de cadastro
+    char data[10];
+    sprintf(data, "%02d/%02d/%02d", produto.dataCadastro.dia, produto.dataCadastro.mes, produto.dataCadastro.ano);
+    // Mostra o cliente
+    printf("/////////////////////////////////////////////////////\n");
+    msgCaixa("[Produto]: ", 11, produto.nome, strlen(produto.nome));
+    printf("/////////////////////////////////////////////////////\n");
+    msgCaixa("[Valor de Compra]: R$", 21, valorCompra, strlen(valorCompra));
+    msgCaixa("[Valor de Venda]: R$", 20, valorVenda, strlen(valorVenda));
+    msgCaixa("[Lucro]: R$", 11, lucro, strlen(lucro));
+    printf("// [Quantidade]: %d\n", produto.qtd);
+    msgCaixa("[Quantidade]: ", 14, qtd, strlen(qtd));
+    msgCaixa("[Data de Cadastro]: ", 20, data, strlen(data));
+    printf("/////////////////////////////////////////////////////\n\n");
 }
 
 /*
