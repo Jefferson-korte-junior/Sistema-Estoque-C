@@ -10,6 +10,8 @@
 #include "Structs.h"
 
 // Protótipos
+void msgCaixa(char* preMsg, int tamanhoString, char* msg, int tamanhoString2);
+void menuAmbiente(char* ambiente);
 int menuPrincipal();  
 int menuEstoque();
 Produto* novoProduto();
@@ -22,6 +24,32 @@ NotaFiscal* novaNotaFiscal();
 Endereco* novoEndereco();
 
 /*
+    Caixa:
+*/
+void msgCaixa(char* preMsg, int tamanhoString, char* msg, int tamanhoString2) {
+    printf("// %s%s", preMsg, msg);
+    for (int i = tamanhoString+tamanhoString2+9; i < 57; i++) {
+        printf(" ");
+    }
+    printf("//\n");
+}
+
+/*
+    Cabecalho:
+*/
+void menuAmbiente(char* ambiente) {
+    system("cls");
+    printf("-----------------------------------------------------\n");
+    printf("                   %s\n", ambiente);
+    printf("-----------------------------------------------------\n\n");
+    printf("Selecione:\n");
+    printf("[1] > Pesquisar\n");
+    printf("[2] > Vizualizar\n");
+    printf("[3] > Novo\n");
+    printf("[4] < Voltar\n");
+}
+
+/*
     Menu Principal:
 */
 int menuPrincipal() {
@@ -30,7 +58,7 @@ int menuPrincipal() {
     printf("-----------------------------------------------------\n");
     printf("                Sistema Estoque IBJM\n");
     printf("-----------------------------------------------------\n\n");
-    printf("Selecione o Ambiente:\n");
+    printf("Selecione:\n");
     printf("[1] > Estoque\n");
     printf("[2] > Clientes\n");
     printf("[3] > Fornecedores\n");
@@ -54,7 +82,7 @@ int menuPrincipal() {
         printf("-> Saindo...\n");
         return 0;
     default:
-        printf("-> Opção inválida!\n");
+        printf("-> Opcao invalida!\n");
         system("pause");
     }
     system("cls");
@@ -65,17 +93,15 @@ int menuPrincipal() {
     Menu do Estoque:
 */
 int menuEstoque() {
+    // Ponteiro para Produto
     Produto* produto = NULL;
+    // Variável de Menu
     int menu = 0;
-    system("cls");
-    printf("-----------------------------------------------------\n");
-    printf("                  Ambiente Estoque\n");
-    printf("-----------------------------------------------------\n\n");
-    printf("[1] > Pesquisar\n");
-    printf("[2] > Vizualizar\n");
-    printf("[3] > Novo\n");
-    printf("[4] < Voltar\n");
+    // Exibe o menu
+    menuAmbiente("Ambiente Estoque");
+    // Lê a opção
     scanf("%d", &menu);
+    // Verifica a opção escolhida
     switch (menu) {
     case 1:
         system("cls");
@@ -83,31 +109,39 @@ int menuEstoque() {
         system("pause");
         break;
     case 2:
+        // Limpa a tela
         system("cls");
+        // Verifica se ha Itens no Estoque e se tem ja mostra
         int vf = verEstoque();
+        // Verifica se houve algum problema
         if (vf == 1) {
             printf("-> Problema ao listar itens do Estoque!\n");
-        } else if (vf == -1) {
-            printf("-> Ainda não há nenhum Item cadastrado no Estoque!\n");
+        } 
+        // Verifica se nao ha nenhum Item
+        else if (vf == -1) {
+            printf("-> Ainda nao ha nenhum Item cadastrado no Estoque!\n");
         }
-        system("pause");
         break;
     case 3: 
+        // Cria um novo Produto
         produto = novoProduto();
+        // Verifica se o Produto foi criado e se foi cadastrado
         if (produto != NULL && cadastrarProduto(produto) == 0) {
             printf("-> Produto cadastrado com sucesso!\n");
-        } else {
+        }
+        // Se nao foi cadastrado 
+        else {
             printf("-> Erro ao cadastrar Produto!\n");
         }
-        system("pause");
         break;
     case 4:
-        printf("<- Voltando...\n");
+        // Volta a tela inicial
         return 0;
     default:
-        printf("-> Opção inválida!\n");
-        system("pause");
+        printf("-> Opcao invalida!\n");
     }
+    // Pausa para vizualizar
+    system("pause");
     return menuEstoque();
 }
 
@@ -164,49 +198,52 @@ Produto* novoProduto() {
     Menu dos Clientes:
 */
 int menuClientes() {
+    // Ponteiro para Cliente
     Cliente* cliente = NULL;
+    // Variável de Menu
     int menu = 0;
-    system("cls");
-    printf("-----------------------------------------------------\n");
-    printf("                  Ambiente Clientes\n");
-    printf("-----------------------------------------------------\n\n");
-    printf("[1] > Pesquisar\n");
-    printf("[2] > Vizualizar\n");
-    printf("[3] > Novo\n");
-    printf("[4] < Voltar\n");
+    // Exibe o menu
+    menuAmbiente("Ambiente Estoque");
+    // Lê a opção
     scanf("%d", &menu);
     switch (menu) {
     case 1:
-        system("cls");
-        printf("-> NADA FEITO AINDA <-\n");
-        system("pause");
+        // Nada feito ainda
         break;
     case 2:
+        // Limpa a tela
         system("cls");
+        // Verifica se ha Clientes e se tem ja mostra
         int vf = verClientes();
+        // Verifica se houve algum problema
         if (vf == 1) {
             printf("-> Problema ao listar Clientes!\n");
-        } else if (vf == -1) {
-            printf("-> Ainda não há nenhum Cliente cadastrado!\n");
+        } 
+        // Verifica se nao ha nenhum Cliente
+        else if (vf == -1) {
+            printf("-> Ainda nao ha nenhum Cliente cadastrado!\n");
         }
-        system("pause");
         break;
     case 3: 
+        // Cria um novo Cliente
         cliente = novoCliente();
+        // Verifica se o Cliente foi criado e se foi cadastrado
         if (cliente != NULL && cadastrarCliente(cliente) == 0) {
             printf("-> Cliente cadastrado com sucesso!\n");
-        } else {
+        } 
+        // Se nao foi cadastrado
+        else {
             printf("-> Erro ao cadastrar Cliente!\n");
         }
-        system("pause");
         break;
     case 4:
-        printf("<- Voltando...\n");
+        // Volta a tela anterior
         return 0;
     default:
-        printf("-> Opção inválida!\n");
-        system("pause");
+        printf("-> Opcao invalida!\n");
     }
+    // Pausa para vizualizar
+    system("pause");
     return menuClientes();
 }
 
@@ -250,7 +287,6 @@ Cliente* novoCliente() {
         free(novoCliente);
         return NULL;
     }
-
     // Data de Cadastro
     time_t t = time(NULL);
     struct tm tm = *localtime(&t);
@@ -264,17 +300,15 @@ Cliente* novoCliente() {
     Menu dos Fornecedores:
 */
 int menuFornecedores() {
+    // Ponteiro para Fornecedor
     Fornecedor* fornecedor = NULL;
+    // Variável de Menu
     int menu = 0;
-    system("cls");
-    printf("-----------------------------------------------------\n");
-    printf("                  Ambiente Fornecedores\n");
-    printf("-----------------------------------------------------\n\n");
-    printf("[1] > Pesquisar\n");
-    printf("[2] > Vizualizar\n");
-    printf("[3] > Novo\n");
-    printf("[4] < Voltar\n");
+    // Exibe o menu
+    menuAmbiente("Ambiente Estoque");
+    // Lê a opção
     scanf("%d", &menu);
+    // Verifica a opção escolhida
     switch (menu) {
     case 1:
         system("cls");
@@ -282,31 +316,39 @@ int menuFornecedores() {
         system("pause");
         break;
     case 2:
+        // Limpa a tela
         system("cls");
+        // Verifica se ha Fornecedores e se tem ja mostra
         int vf = verFornecedores();
+        // Verifica se houve algum problema
         if (vf == 1) {
             printf("-> Problema ao listar Fornecedores!\n");
-        } else if (vf == -1) {
-            printf("-> Ainda não há nenhum Fornecedor cadastrado!\n");
+        } 
+        // Verifica se nao ha nenhum Fornecedor
+        else if (vf == -1) {
+            printf("-> Ainda nao ha nenhum Fornecedor cadastrado!\n");
         }
-        system("pause");
         break;
     case 3: 
+        // Cria um novo Fornecedor
         fornecedor = novoFornecedor();
+        // Verifica se o Fornecedor foi criado e se foi cadastrado
         if (fornecedor != NULL && cadastrarFornecedor(fornecedor) == 0) {
             printf("-> Fornecedor cadastrado com sucesso!\n");
-        } else {
+        } 
+        // Se nao foi cadastrado
+        else {
             printf("-> Erro ao cadastrar Fornecedor!\n");
         }
-        system("pause");
         break;
     case 4:
-        printf("<- Voltando...\n");
+        // Volta a tela anterior
         return 0;
     default:
-        printf("-> Opção inválida!\n");
-        system("pause");
+        printf("-> Opcao invalida!\n");
     }
+    // Pausa para vizualizar
+    system("pause");
     return menuFornecedores();
 }
 
@@ -357,16 +399,13 @@ Fornecedor* novoFornecedor() {
     Menu dos Notas Fiscais:
 */
 int menuNotasFiscais() {
+    // Variável de Menu
     int menu = 0;
-    system("cls");
-    printf("-----------------------------------------------------\n");
-    printf("                  Ambiente Notas Fiscais\n");
-    printf("-----------------------------------------------------\n\n");
-    printf("[1] > Pesquisar\n");
-    printf("[2] > Vizualizar\n");
-    printf("[3] > Novo\n");
-    printf("[4] < Voltar\n");
+    // Exibe o menu
+    menuAmbiente("Ambiente Estoque");
+    // Lê a opção
     scanf("%d", &menu);
+    // Verifica a opção escolhida
     switch(menu) {
     case 1:
         break;
@@ -375,9 +414,10 @@ int menuNotasFiscais() {
     case 3:
         return 0;
     default:
-        printf("-> Opção inválida!\n");
-        system("pause");
+        printf("-> Opcao invalida!\n");
     }
+    // Pausa para vizualizar
+    system("pause");
     return menuNotasFiscais();
 }
 
@@ -400,44 +440,37 @@ Endereco* novoEndereco() {
     if (novoEndereco == NULL) {
         return NULL;
     }
-
     // Rua
     printf("> Digite a rua:\n");
     if (scanf(" %[^\n]", novoEndereco->rua) == 0) {
         free(novoEndereco);
         return NULL;
     }
-
     // Bairro
     printf("> Digite o bairro:\n");
     if (scanf(" %[^\n]", novoEndereco->bairro) == 0) {
         free(novoEndereco);
         return NULL;
     }
-
     // Cidade
     printf("> Digite a cidade:\n");
     if (scanf(" %[^\n]", novoEndereco->cidade) == 0) {
         free(novoEndereco);
         return NULL;
     }
-
     // Estado
     printf("> Digite o estado:\n");
     if (scanf(" %[^\n]", novoEndereco->estado) == 0) {
         free(novoEndereco);
         return NULL;
     }
-
     // Número
-    printf("> Digite o número da casa:\n");
+    printf("> Digite o numero da casa:\n");
     if (scanf("%d", &novoEndereco->numeroCasa) == 0) {
         free(novoEndereco);
         return NULL;
     }
-
     return novoEndereco;
 }
-
 
 #endif

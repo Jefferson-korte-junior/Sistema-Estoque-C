@@ -1,33 +1,11 @@
-Bruno
-1
-2
-a
-1
-v
-c
-a
-a
-00/00/00
-
-Igor
-123
-123456
-ipe
-123
-Universidade
+Bruno Alcantara
+099.643.499-20
+45
+99988-2538
+170
+Sao Clemente
 Santa Helena
-Parana
-IgorC
-22/02/2025
-
-Igor
-12
-12345
-ipe
-1000
-Universidade
-Santa Helena
-Parana
-Igorc@
-22/02/2025
+Paran 
+bruno@gmail.com
+23/02/2025
 
