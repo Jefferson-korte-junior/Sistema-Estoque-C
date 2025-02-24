@@ -12,6 +12,7 @@ typedef struct {
 
 // Produto
 typedef struct {
+    int id;
     char nome[50];        
     float valorCompra;  
     float valorVenda;   
@@ -31,6 +32,7 @@ typedef struct {
 
 // Cliente
 typedef struct{
+    int id;
     char nome[50];
     char cpf[15];
     char telefone[15];
@@ -41,6 +43,7 @@ typedef struct{
 
 // Fornecedor
 typedef struct {
+    int id;
     char nomeFantasia[50];
     char cnpj[15];
     char telefone[15];
@@ -58,6 +61,7 @@ typedef struct {
  
 // Nota Fiscal
 typedef struct {
+    int id;
     Compra *compras;
     float valorTotal; 
     Cliente cliente;

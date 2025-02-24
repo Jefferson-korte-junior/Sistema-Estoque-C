@@ -10,8 +10,8 @@
 #include "Structs.h"
 
 // Protótipos
-void msgCaixa(char* preMsg, int tamanhoString, char* msg, int tamanhoString2);
-void menuAmbiente(char* ambiente);
+int msgCaixa(char* preMsg, int tamanhoString, char* msg, int tamanhoString2);
+int menuAmbiente(char* ambiente);
 int menuPrincipal();  
 int menuEstoque();
 Produto* novoProduto();
@@ -26,18 +26,19 @@ Endereco* novoEndereco();
 /*
     Caixa:
 */
-void msgCaixa(char* preMsg, int tamanhoString, char* msg, int tamanhoString2) {
+int msgCaixa(char* preMsg, int tamanhoString, char* msg, int tamanhoString2) {
     printf("// %s%s", preMsg, msg);
     for (int i = tamanhoString+tamanhoString2+9; i < 57; i++) {
         printf(" ");
     }
     printf("//\n");
+    return 0;
 }
 
 /*
     Cabecalho:
 */
-void menuAmbiente(char* ambiente) {
+int menuAmbiente(char* ambiente) {
     system("cls");
     printf("-----------------------------------------------------\n");
     printf("                   %s\n", ambiente);
@@ -47,6 +48,7 @@ void menuAmbiente(char* ambiente) {
     printf("[2] > Vizualizar\n");
     printf("[3] > Novo\n");
     printf("[4] < Voltar\n");
+    return 0;
 }
 
 /*
@@ -112,7 +114,7 @@ int menuEstoque() {
         // Limpa a tela
         system("cls");
         // Verifica se ha Itens no Estoque e se tem ja mostra
-        int vf = verEstoque();
+        int vf = verEstoque(1);
         // Verifica se houve algum problema
         if (vf == 1) {
             printf("-> Problema ao listar itens do Estoque!\n");
@@ -154,43 +156,50 @@ Produto* novoProduto() {
     if (novoProduto == NULL) {
         return NULL;
     }
-    // Nome
+    // Id
+    if (verEstoque(0) == -1) {
+        novoProduto->id = 1;
+    } else {
+        novoProduto->id = verEstoque(0) + 1;
+    }
     system("cls");
+    printf("-> Novo Produto #%02d\n\n", novoProduto->id);
+    // Nome
     printf("> Digite o nome:\n");
-    if (scanf(" %[^\n]", (*novoProduto).nome) == 0) {
+    if (scanf(" %[^\n]", novoProduto->nome) == 0) {
         free(novoProduto);
         return NULL;
     }
     // Valor Compra
     printf("> Digite o valor de Compra:\n");
-    if (scanf("%f", &(*novoProduto).valorCompra) == 0) {
+    if (scanf("%f", &novoProduto->valorCompra) == 0) {
         free(novoProduto);
         return NULL;
     }
     // Valor Venda
     printf("> Digite o valor de Venda:\n");
-    if (scanf("%f", &(*novoProduto).valorVenda) == 0) {
+    if (scanf("%f", &novoProduto->valorVenda) == 0) {
         free(novoProduto);
         return NULL;
     }
     // Valor Venda
     printf("> Digite a quantidade em Estoque:\n");
-    if (scanf("%d", &(*novoProduto).qtd) == 0) {
+    if (scanf("%d", &novoProduto->qtd) == 0) {
         free(novoProduto);
         return NULL;
     }
     // Valor de Lucro
-    (*novoProduto).lucro = (*novoProduto).valorVenda - (*novoProduto).valorCompra;
-    if ((*novoProduto).lucro < 0) {
+    novoProduto->lucro = novoProduto->valorVenda - novoProduto->valorCompra;
+    if (novoProduto->lucro < 0) {
         free(novoProduto);
         return NULL;
     }
     // Data de Cadastro
     time_t t = time(NULL);
     struct tm tm = *localtime(&t);
-    (*novoProduto).dataCadastro.dia = tm.tm_mday;
-    (*novoProduto).dataCadastro.mes = tm.tm_mon + 1;
-    (*novoProduto).dataCadastro.ano = tm.tm_year + 1900;
+    novoProduto->dataCadastro.dia = tm.tm_mday;
+    novoProduto->dataCadastro.mes = tm.tm_mon + 1;
+    novoProduto->dataCadastro.ano = tm.tm_year + 1900;
     return novoProduto;
 }
 
@@ -214,7 +223,7 @@ int menuClientes() {
         // Limpa a tela
         system("cls");
         // Verifica se ha Clientes e se tem ja mostra
-        int vf = verClientes();
+        int vf = verClientes(1);
         // Verifica se houve algum problema
         if (vf == 1) {
             printf("-> Problema ao listar Clientes!\n");
@@ -256,8 +265,15 @@ Cliente* novoCliente() {
     if (novoCliente == NULL) {
         return NULL;
     }
-    // Nome
+    // Id
+    if (verClientes(0) == -1) {
+        novoCliente->id = 1;
+    } else {
+        novoCliente->id = verClientes(0) + 1;
+    }
     system("cls");
+    printf("-> Novo Cliente #%02d\n\n", novoCliente->id);
+    // Nome
     printf("> Digite o nome:\n");
     if (scanf(" %[^\n]", (*novoCliente).nome) == 0) {
         free(novoCliente);
@@ -319,7 +335,7 @@ int menuFornecedores() {
         // Limpa a tela
         system("cls");
         // Verifica se ha Fornecedores e se tem ja mostra
-        int vf = verFornecedores();
+        int vf = verFornecedores(1);
         // Verifica se houve algum problema
         if (vf == 1) {
             printf("-> Problema ao listar Fornecedores!\n");
@@ -361,8 +377,15 @@ Fornecedor* novoFornecedor() {
     if (novoFornecedor == NULL) {
         return NULL;
     }
-    // Nome Fantasia
+    // Id
+    if (verFornecedores(0) == -1) {
+        novoFornecedor->id = 1;
+    } else {
+        novoFornecedor->id = verFornecedores(0) + 1;
+    }
     system("cls");
+    printf("-> Fornecedor #%02d\n\n", novoFornecedor->id);
+    // Nome Fantasia
     printf("> Digite o nome Fantasia:\n");
     if (scanf(" %[^\n]", (*novoFornecedor).nomeFantasia) == 0) {
         free(novoFornecedor);
@@ -466,7 +489,7 @@ Endereco* novoEndereco() {
     }
     // Número
     printf("> Digite o numero da casa:\n");
-    if (scanf("%d", &novoEndereco->numeroCasa) == 0) {
+    if (scanf("%d", &novoEndereco->numero) == 0) {
         free(novoEndereco);
         return NULL;
     }

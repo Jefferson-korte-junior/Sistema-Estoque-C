@@ -95,7 +95,7 @@ void mostrarfornecedor(Fornecedor fornecedor) {
 /*
     Mostra a lista de cadastrados.
 */
-int verFornecedores() {
+int verFornecedores(int ver) {
     // Variavel Fornecedor
     int vf = 0;
     // Variavel Fornecedor para leitura
@@ -122,7 +122,9 @@ int verFornecedores() {
         fscanf(txt, " %[^\n]", fornecedor.endereco->estado);
         fscanf(txt, " %s", fornecedor.email);
         fscanf(txt, " %d/%d/%d", &fornecedor.dataCadastro.dia, &fornecedor.dataCadastro.mes, &fornecedor.dataCadastro.ano);
-        mostrarfornecedor(fornecedor);
+        if (ver == 1) {
+            mostrarfornecedor(fornecedor);
+        }
         vf++;
     }
     // Fecha o arquivo

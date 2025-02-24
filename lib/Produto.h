@@ -3,7 +3,10 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+
 #include "Structs.h"
+#include "Menus.h"	
 
 #define PATH_PRODUTO "../txt/Estoque.txt"
 
@@ -76,7 +79,7 @@ void mostrarProduto(Produto produto) {
 /*
     Mostra a lista de cadastrados.
 */
-int verEstoque() {
+int verEstoque(int ver) {
     // Variável de verificação
     int vf = 0;
     // Variavel Produto para leitura
@@ -94,7 +97,9 @@ int verEstoque() {
         fscanf(txt, " %f", &produto.lucro);
         fscanf(txt, " %d", &produto.qtd);
         fscanf(txt, " %d/%d/%d", &produto.dataCadastro.dia, &produto.dataCadastro.mes, &produto.dataCadastro.ano);
-        mostrarProduto(produto);
+        if (ver == 1) {
+            mostrarProduto(produto);
+        }
         vf++;
     }
     // Fecha o arquivo

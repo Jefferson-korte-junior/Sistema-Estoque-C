@@ -42,7 +42,7 @@ int cadastrarCliente(Cliente* cliente) {
     cliente->cpf,
     cliente->telefone,
     cliente->endereco->rua,
-    cliente->endereco->numeroCasa, 
+    cliente->endereco->numero, 
     cliente->endereco->bairro, 
     cliente->endereco->cidade, cliente->endereco->estado, 
     cliente->email, 
@@ -60,7 +60,7 @@ int cadastrarCliente(Cliente* cliente) {
 void mostrarCliente(Cliente cliente) {
     // Numero da casa
     char numeroCasa[10];
-    sprintf(numeroCasa, "%d", cliente.endereco->numeroCasa);
+    sprintf(numeroCasa, "%d", cliente.endereco->numero);
     // Data de cadastro
     char data[10];
     sprintf(data, "%02d/%02d/%02d", cliente.dataCadastro.dia, cliente.dataCadastro.mes, cliente.dataCadastro.ano);
@@ -83,7 +83,7 @@ void mostrarCliente(Cliente cliente) {
 /*
     Mostra a lista de cadastrados.
 */
-int verClientes() {
+int verClientes(int ver) {
     // Variavel de verificação
     int vf = 0;
     // Vãriavel cliente para leitura e alocação de memória do endereco
@@ -100,13 +100,15 @@ int verClientes() {
         fscanf(txt, " %s", cliente.cpf);
         fscanf(txt, " %[^\n]", cliente.telefone);
         fscanf(txt, " %[^\n]", cliente.endereco->rua);
-        fscanf(txt, " %d", &cliente.endereco->numeroCasa);
+        fscanf(txt, " %d", &cliente.endereco->numero);
         fscanf(txt, " %[^\n]", cliente.endereco->bairro);
         fscanf(txt, " %[^\n]", cliente.endereco->cidade);
         fscanf(txt, " %[^\n]", cliente.endereco->estado);
         fscanf(txt, " %s", cliente.email);
         fscanf(txt, " %d/%d/%d", &cliente.dataCadastro.dia, &cliente.dataCadastro.mes, &cliente.dataCadastro.ano);
-        mostrarCliente(cliente);
+        if (ver == 1) {
+            mostrarCliente(cliente);
+        }
         vf++;
     }
     // Libera a memória alocada para o endereço
