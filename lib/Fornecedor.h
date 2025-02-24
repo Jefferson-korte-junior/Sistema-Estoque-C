@@ -24,6 +24,32 @@ int zerarFornecedores() {
 }
 
 /*
+    Mostra um fornecedor.
+*/
+void mostrarFornecedor(Fornecedor fornecedor) {
+    // Numero da casa
+    char numero[10];
+    sprintf(numero, "%d", fornecedor.endereco->numero);
+    // Data de cadastro
+    char data[10];
+    sprintf(data, "%02d/%02d/%02d", fornecedor.dataCadastro.dia, fornecedor.dataCadastro.mes, fornecedor.dataCadastro.ano);
+    // Mostra o fornecedor
+    printf("/////////////////////////////////////////////////////\n");
+    msgCaixa("", 0, fornecedor.nomeFantasia, strlen(fornecedor.nomeFantasia));
+    printf("/////////////////////////////////////////////////////\n");
+    msgCaixa("[CNPJ]: ", 7, fornecedor.cnpj, strlen(fornecedor.cnpj));
+    msgCaixa("[Telefone]: ", 12, fornecedor.telefone, strlen(fornecedor.telefone));
+    msgCaixa("[Rua]: ", 7, fornecedor.endereco->rua, strlen(fornecedor.endereco->rua));
+    msgCaixa("[Numero]: ", 10, numero, strlen(numero));
+    msgCaixa("[Bairro]: ", 10, fornecedor.endereco->bairro, strlen(fornecedor.endereco->bairro));
+    msgCaixa("[Cidade]: ", 10, fornecedor.endereco->cidade, strlen(fornecedor.endereco->cidade));
+    msgCaixa("[Estado]: ", 10, fornecedor.endereco->estado, strlen(fornecedor.endereco->estado));
+    msgCaixa("[Email]: ", 9, fornecedor.email, strlen(fornecedor.email));
+    msgCaixa("[Data de Cadastro]: ", 20, data, strlen(data));
+    printf("/////////////////////////////////////////////////////\n\n");
+}
+
+/*
     Cadastra um fornecedor.
 */
 int cadastrarFornecedor(Fornecedor* fornecedor) {
@@ -39,7 +65,7 @@ int cadastrarFornecedor(Fornecedor* fornecedor) {
     fornecedor->cnpj,
     fornecedor->telefone,
     fornecedor->endereco->rua,
-    fornecedor->endereco->numeroCasa,
+    fornecedor->endereco->numero,
     fornecedor->endereco->bairro,
     fornecedor->endereco->cidade,
     fornecedor->endereco->estado,
@@ -61,7 +87,7 @@ void mostrarfornecedor(Fornecedor fornecedor) {
     printf("-----------------------------------------------------\n");
     printf("    + CNPJ: %s\n", fornecedor.cnpj);
     printf("    + Telefone: %s\n", fornecedor.telefone);
-    printf("    + Endereco: %s, %d, %s, %s, %s\n", fornecedor.endereco->rua, fornecedor.endereco->numeroCasa, fornecedor.endereco->bairro, fornecedor.endereco->cidade, fornecedor.endereco->estado);
+    printf("    + Endereco: %s, %d, %s, %s, %s\n", fornecedor.endereco->rua, fornecedor.endereco->numero, fornecedor.endereco->bairro, fornecedor.endereco->cidade, fornecedor.endereco->estado);
     printf("    + Email: %s\n", fornecedor.email);
     printf("    + Data de Cadastro: %02d/%02d/%02d\n\n", fornecedor.dataCadastro.dia, fornecedor.dataCadastro.mes, fornecedor.dataCadastro.ano);
 }
@@ -74,8 +100,12 @@ int verFornecedores() {
     int vf = 0;
     // Variavel Fornecedor para leitura
     Fornecedor fornecedor;
+    fornecedor.endereco = (Endereco*) malloc(sizeof(Endereco));
     // Abre o arquivo
     FILE* txt = fopen(PATH_FORNECEDOR, "r");
+    if (txt == NULL || fornecedor.endereco == NULL) {
+        return 1;
+    }
     // Verifica se o arquivo foi aberto
     if (txt == NULL) {
         printf("-> Problema ao tentar abrir arquivo...\n");
@@ -86,7 +116,7 @@ int verFornecedores() {
         fscanf(txt, " %s", fornecedor.cnpj);
         fscanf(txt, " %[^\n]", fornecedor.telefone);
         fscanf(txt, " %[^\n]", fornecedor.endereco->rua);
-        fscanf(txt, " %d", &fornecedor.endereco->numeroCasa);
+        fscanf(txt, " %d", &fornecedor.endereco->numero);
         fscanf(txt, " %[^\n]", fornecedor.endereco->bairro);
         fscanf(txt, " %[^\n]", fornecedor.endereco->cidade);
         fscanf(txt, " %[^\n]", fornecedor.endereco->estado);
