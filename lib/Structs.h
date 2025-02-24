@@ -26,7 +26,7 @@ typedef struct {
     char bairro[20];
     char cidade[20];
     char estado[50];
-    int numeroCasa;
+    int numero;
 } Endereco;
 
 // Cliente
