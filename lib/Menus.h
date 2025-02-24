@@ -47,7 +47,8 @@ int menuAmbiente(char* ambiente) {
     printf("[1] > Pesquisar\n");
     printf("[2] > Vizualizar\n");
     printf("[3] > Novo\n");
-    printf("[4] < Voltar\n");
+    printf("[4] < Pesquisar\n");
+    printf("[5] < Voltar\n");
     return 0;
 }
 
@@ -246,6 +247,10 @@ int menuClientes() {
         }
         break;
     case 4:
+        system("cls");
+        buscarCliente();
+        break;
+    case 5:
         // Volta a tela anterior
         return 0;
     default:
@@ -358,6 +363,10 @@ int menuFornecedores() {
         }
         break;
     case 4:
+        system("cls");
+        buscarFornecedor();
+        break;
+    case 5:
         // Volta a tela anterior
         return 0;
     default:
@@ -415,6 +424,12 @@ Fornecedor* novoFornecedor() {
         free(novoFornecedor);
         return NULL;
     }
+    // Data de Cadastro
+    time_t t = time(NULL);
+    struct tm tm = *localtime(&t);
+    (*novoFornecedor).dataCadastro.dia = tm.tm_mday;
+    (*novoFornecedor).dataCadastro.mes = tm.tm_mon + 1;
+    (*novoFornecedor).dataCadastro.ano = tm.tm_year + 1900;
     return novoFornecedor;
 }
 

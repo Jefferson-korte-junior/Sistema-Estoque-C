@@ -8,6 +8,43 @@
 
 #define PATH_FORNECEDOR "../txt/Fornecedores.txt"
 
+int buscarFornecedor(){
+    char cnpj[15];
+    printf("Digite o CNPJ do cliente: ");
+    scanf(" %s", cnpj);
+    // Variavel de verificação
+    int vf = 0;
+    Fornecedor fornecedor;
+    fornecedor.endereco = (Endereco*) malloc(sizeof(Endereco));
+    // Abre o arquivo
+    FILE* txt = fopen(PATH_FORNECEDOR, "r");
+    if (txt == NULL || fornecedor.endereco == NULL) {
+        return 1;
+    }
+    // Verifica se o arquivo foi aberto
+    if (txt == NULL) {
+        printf("-> Problema ao tentar abrir arquivo...\n");
+        return 1;
+    }
+    // Faz a leitura do arquivo
+    while (fscanf(txt, " %[^\n]", fornecedor.nomeFantasia) != EOF) {
+        fscanf(txt, " %s", fornecedor.cnpj);
+        fscanf(txt, " %[^\n]", fornecedor.telefone);
+        fscanf(txt, " %[^\n]", fornecedor.endereco->rua);
+        fscanf(txt, " %d", &fornecedor.endereco->numero);
+        fscanf(txt, " %[^\n]", fornecedor.endereco->bairro);
+        fscanf(txt, " %[^\n]", fornecedor.endereco->cidade);
+        fscanf(txt, " %[^\n]", fornecedor.endereco->estado);
+        fscanf(txt, " %s", fornecedor.email);
+        fscanf(txt, " %d/%d/%d", &fornecedor.dataCadastro.dia, &fornecedor.dataCadastro.mes, &fornecedor.dataCadastro.ano);
+         // mostrarCliente(cliente);
+         if (strcmp(fornecedor.cnpj, cnpj) == 0) {
+            mostrarFornecedor(fornecedor);
+            
+        }
+        vf++;
+    }
+}
 /*
     Zera a lista de fornecedores.
 */

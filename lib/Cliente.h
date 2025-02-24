@@ -11,6 +11,39 @@
 
 #define PATH_CLIENTE "../txt/Clientes.txt"
 
+int buscarCliente(){
+    char cpf[15];
+    printf("Digite o CPF do cliente: ");
+    scanf(" %s", cpf);
+    // Variavel de verificação
+    int vf = 0;
+    Cliente cliente;
+    cliente.endereco = (Endereco*) malloc(sizeof(Endereco));
+    // Abre o arquivo
+    FILE* txt = fopen(PATH_CLIENTE, "r");
+    // Verifica se o arquivo foi aberto e se a alocação de memória do endereço foi feita
+    if (txt == NULL || cliente.endereco == NULL) {
+        return 1;
+    }
+    // Faz a leitura do arquivo
+    while (fscanf(txt, " %[^\n]", cliente.nome) != EOF) {
+        fscanf(txt, " %s", cliente.cpf);
+        fscanf(txt, " %[^\n]", cliente.telefone);
+        fscanf(txt, " %[^\n]", cliente.endereco->rua);
+        fscanf(txt, " %d", &cliente.endereco->numero);
+        fscanf(txt, " %[^\n]", cliente.endereco->bairro);
+        fscanf(txt, " %[^\n]", cliente.endereco->cidade);
+        fscanf(txt, " %[^\n]", cliente.endereco->estado);
+        fscanf(txt, " %s", cliente.email);
+        fscanf(txt, " %d/%d/%d", &cliente.dataCadastro.dia, &cliente.dataCadastro.mes, &cliente.dataCadastro.ano);
+        // mostrarCliente(cliente);
+        if (strcmp(cliente.cpf, cpf) == 0) {
+            mostrarCliente(cliente);
+            
+        }
+        vf++;
+    }
+}
 /*
     Zera a lista de produtos.
 */
