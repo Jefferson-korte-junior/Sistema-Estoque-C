@@ -1,13 +1,13 @@
-marciano
+Loja de bebidas LTDA
 123
-123
-ipe
-123
-sla
-sla
+32682025
+bahia
+45
+centro
+santa helena
 parana
-marciano@
-24/02/2025
+LojaDeBebidasLTDA@
+25/02/2025
 
 igor
 123456

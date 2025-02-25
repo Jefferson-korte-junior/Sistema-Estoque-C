@@ -10,7 +10,6 @@
 #include "Structs.h"
 
 // Protótipos
-int msgCaixa(char* preMsg, int tamanhoString, char* msg, int tamanhoString2);
 int menuAmbiente(char* ambiente);
 int menuPrincipal();  
 int menuEstoque();
@@ -22,18 +21,6 @@ Fornecedor* novoFornecedor();
 int menuNotasFiscais();
 NotaFiscal* novaNotaFiscal();
 Endereco* novoEndereco();
-
-/*
-    Caixa:
-*/
-int msgCaixa(char* preMsg, int tamanhoString, char* msg, int tamanhoString2) {
-    printf("// %s%s", preMsg, msg);
-    for (int i = tamanhoString+tamanhoString2+9; i < 57; i++) {
-        printf(" ");
-    }
-    printf("//\n");
-    return 0;
-}
 
 /*
     Cabecalho:

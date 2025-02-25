@@ -12,8 +12,10 @@
 
 int editarProduto() {
     char nome[35];
+    printf("////////////////////////////////////////////\n");
     printf("Digite o nome do Produto que deseja editar: ");
     scanf(" %[^\n]", nome);
+    printf("\n////////////////////////////////////////////\n");
     
     FILE* txt = fopen(PATH_PRODUTO, "r");
     if (txt == NULL) {
@@ -61,6 +63,7 @@ int editarProduto() {
                 produto.nome, produto.valorCompra, produto.valorVenda, produto.lucro, produto.qtd, 
                 produto.dataCadastro.dia, produto.dataCadastro.mes, produto.dataCadastro.ano);
     }
+    printf("\n////////////////////////////////////////////\n");
     
     fclose(txt);
     fclose(temp);
@@ -156,13 +159,13 @@ void mostrarProduto(Produto produto) {
     sprintf(data, "%02d/%02d/%02d", produto.dataCadastro.dia, produto.dataCadastro.mes, produto.dataCadastro.ano);
     // Mostra o cliente
     printf("/////////////////////////////////////////////////////\n");
-    msgCaixa("[Produto]: ", 11, produto.nome, strlen(produto.nome));
+    printf ("[Produto]: %s\n", produto.nome);
     printf("/////////////////////////////////////////////////////\n");
-    msgCaixa("[Valor de Compra]: R$", 21, valorCompra, strlen(valorCompra));
-    msgCaixa("[Valor de Venda]: R$", 20, valorVenda, strlen(valorVenda));
-    msgCaixa("[Lucro]: R$", 11, lucro, strlen(lucro));
-    printf("// [Quantidade]: %d\n", produto.qtd);
-    msgCaixa("[Data de Cadastro]: ", 20, data, strlen(data));
+    printf ("[Valor de Compra]: R$%s\n", valorCompra);
+    printf ("[Valor de Venda]: R$%s\n", valorVenda);
+    printf ("[Lucro]: R$%s\n", lucro);
+    printf ("[Quantidade]: %s\n", qtd);
+    printf ("[Data de Cadastro]: %s\n", data);
     printf("/////////////////////////////////////////////////////\n\n");
 }
 

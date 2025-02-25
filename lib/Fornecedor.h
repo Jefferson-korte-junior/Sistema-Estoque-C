@@ -104,8 +104,10 @@ int editarFornecedor() {
 */
 int buscarFornecedor(){
     char cnpj[15];
+    printf("////////////////////////////////////////////\n");
     printf("Digite o CNPJ do fornecedor: ");
     scanf(" %s", cnpj);
+    printf("\n////////////////////////////////////////////\n");
     // Variavel de verificação
     int vf = 0;
     Fornecedor fornecedor;
@@ -138,6 +140,8 @@ int buscarFornecedor(){
         }
         vf++;
     }
+    fclose(txt);
+    printf("\n////////////////////////////////////////////\n");
 }
 /*
     Zera a lista de fornecedores.
@@ -163,17 +167,17 @@ void mostrarFornecedor(Fornecedor fornecedor) {
     sprintf(data, "%02d/%02d/%02d", fornecedor.dataCadastro.dia, fornecedor.dataCadastro.mes, fornecedor.dataCadastro.ano);
     // Mostra o fornecedor
     printf("/////////////////////////////////////////////////////\n");
-    msgCaixa("", 0, fornecedor.nomeFantasia, strlen(fornecedor.nomeFantasia));
+    printf ("[Fornecedor]: %s\n", fornecedor.nomeFantasia);
     printf("/////////////////////////////////////////////////////\n");
-    msgCaixa("[CNPJ]: ", 7, fornecedor.cnpj, strlen(fornecedor.cnpj));
-    msgCaixa("[Telefone]: ", 12, fornecedor.telefone, strlen(fornecedor.telefone));
-    msgCaixa("[Rua]: ", 7, fornecedor.endereco->rua, strlen(fornecedor.endereco->rua));
-    printf("// [Numero]: %d\n", fornecedor.endereco->numero);
-    msgCaixa("[Bairro]: ", 10, fornecedor.endereco->bairro, strlen(fornecedor.endereco->bairro));
-    msgCaixa("[Cidade]: ", 10, fornecedor.endereco->cidade, strlen(fornecedor.endereco->cidade));
-    msgCaixa("[Estado]: ", 10, fornecedor.endereco->estado, strlen(fornecedor.endereco->estado));
-    msgCaixa("[Email]: ", 9, fornecedor.email, strlen(fornecedor.email));
-    msgCaixa("[Data de Cadastro]: ", 20, data, strlen(data));
+    printf ("[CNPJ]: %s\n", fornecedor.cnpj);
+    printf ("[Telefone]: %s\n", fornecedor.telefone);
+    printf ("[Rua]: %s, %d\n", fornecedor.endereco->rua, fornecedor.endereco->numero);
+    printf ("[Numero]: %d\n", fornecedor.endereco->numero);
+    printf ("[Bairro]: %s\n", fornecedor.endereco->bairro);
+    printf ("[Cidade]: %s\n", fornecedor.endereco->cidade);
+    printf ("[Estado]: %s\n", fornecedor.endereco->estado);
+    printf ("[Email]: %s\n", fornecedor.email);
+    printf ("[Data de Cadastro]: %s\n", data);
     printf("/////////////////////////////////////////////////////\n\n");
 }
 
