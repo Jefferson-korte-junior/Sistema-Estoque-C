@@ -158,9 +158,6 @@ int zerarFornecedores() {
     Mostra um fornecedor.
 */
 void mostrarFornecedor(Fornecedor fornecedor) {
-    // Numero da casa
-    char numero[10];
-    sprintf(numero, "%d", fornecedor.endereco->numero);
     // Data de cadastro
     char data[10];
     sprintf(data, "%02d/%02d/%02d", fornecedor.dataCadastro.dia, fornecedor.dataCadastro.mes, fornecedor.dataCadastro.ano);
@@ -171,7 +168,7 @@ void mostrarFornecedor(Fornecedor fornecedor) {
     msgCaixa("[CNPJ]: ", 7, fornecedor.cnpj, strlen(fornecedor.cnpj));
     msgCaixa("[Telefone]: ", 12, fornecedor.telefone, strlen(fornecedor.telefone));
     msgCaixa("[Rua]: ", 7, fornecedor.endereco->rua, strlen(fornecedor.endereco->rua));
-    msgCaixa("[Numero]: ", 10, numero, strlen(numero));
+    printf("// [Numero]: %d\n", fornecedor.endereco->numero);
     msgCaixa("[Bairro]: ", 10, fornecedor.endereco->bairro, strlen(fornecedor.endereco->bairro));
     msgCaixa("[Cidade]: ", 10, fornecedor.endereco->cidade, strlen(fornecedor.endereco->cidade));
     msgCaixa("[Estado]: ", 10, fornecedor.endereco->estado, strlen(fornecedor.endereco->estado));

@@ -131,6 +131,7 @@ int buscarCliente(){
         }
         vf++;
     }
+    return 0;
 }
 /*
     Zera a lista de produtos.
@@ -179,9 +180,6 @@ int cadastrarCliente(Cliente* cliente) {
     Mostra um cliente.
 */
 void mostrarCliente(Cliente cliente) {
-    // Numero da casa
-    char numeroCasa[10];
-    sprintf(numeroCasa, "%d", cliente.endereco->numero);
     // Data de cadastro
     char data[10];
     sprintf(data, "%02d/%02d/%02d", cliente.dataCadastro.dia, cliente.dataCadastro.mes, cliente.dataCadastro.ano);
@@ -192,7 +190,7 @@ void mostrarCliente(Cliente cliente) {
     msgCaixa("[CPF]: ", 7, cliente.cpf, strlen(cliente.cpf));
     msgCaixa("[Telefone]: ", 12, cliente.telefone, strlen(cliente.telefone));
     msgCaixa("[Rua]: ", 7, cliente.endereco->rua, strlen(cliente.endereco->rua));
-    msgCaixa("[Numero]: ", 10, numeroCasa, strlen(numeroCasa));
+    printf("// [Numero]: %d\n", cliente.endereco->numero);
     msgCaixa("[Bairro]: ", 10, cliente.endereco->bairro, strlen(cliente.endereco->bairro));
     msgCaixa("[Cidade]: ", 10, cliente.endereco->cidade, strlen(cliente.endereco->cidade));
     msgCaixa("[Estado]: ", 10, cliente.endereco->estado, strlen(cliente.endereco->estado));

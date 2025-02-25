@@ -108,8 +108,7 @@ int menuEstoque() {
     switch (menu) {
     case 1:
         system("cls");
-        printf("-> NADA FEITO AINDA <-\n");
-        system("pause");
+        buscarProduto();
         break;
     case 2:
         // Limpa a tela
@@ -138,6 +137,10 @@ int menuEstoque() {
         }
         break;
     case 4:
+        system("cls");
+        editarProduto();
+        break;
+    case 5:
         // Volta a tela inicial
         return 0;
     default:
@@ -213,12 +216,13 @@ int menuClientes() {
     // Variável de Menu
     int menu = 0;
     // Exibe o menu
-    menuAmbiente("Ambiente Estoque");
+    menuAmbiente("Ambiente Cliente");
     // Lê a opção
     scanf("%d", &menu);
     switch (menu) {
     case 1:
-        // Nada feito ainda
+        system("cls");
+        buscarCliente();
         break;
     case 2:
         // Limpa a tela
