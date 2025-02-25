@@ -47,7 +47,7 @@ int menuAmbiente(char* ambiente) {
     printf("[1] > Pesquisar\n");
     printf("[2] > Vizualizar\n");
     printf("[3] > Novo\n");
-    printf("[4] < Pesquisar\n");
+    printf("[4] > Editar\n");
     printf("[5] < Voltar\n");
     return 0;
 }
@@ -326,14 +326,14 @@ int menuFornecedores() {
     // Variável de Menu
     int menu = 0;
     // Exibe o menu
-    menuAmbiente("Ambiente Estoque");
+    menuAmbiente("Ambiente Fornecedores");
     // Lê a opção
     scanf("%d", &menu);
     // Verifica a opção escolhida
     switch (menu) {
     case 1:
         system("cls");
-        printf("-> NADA FEITO AINDA <-\n");
+        buscarFornecedor();
         system("pause");
         break;
     case 2:
@@ -364,7 +364,7 @@ int menuFornecedores() {
         break;
     case 4:
         system("cls");
-        buscarFornecedor();
+        editarFornecedor();
         break;
     case 5:
         // Volta a tela anterior

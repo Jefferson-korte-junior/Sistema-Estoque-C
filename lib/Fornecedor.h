@@ -8,9 +8,103 @@
 
 #define PATH_FORNECEDOR "../txt/Fornecedores.txt"
 
+/*
+    Função para editar fornecedor.
+*/
+int editarFornecedor() {
+    char cnpj[15];
+    printf("Digite o CNPJ do fornecedor que deseja editar: ");
+    scanf(" %s", cnpj);
+    
+    FILE* txt = fopen(PATH_FORNECEDOR, "r");
+    if (txt == NULL) {
+        printf("Erro ao abrir o arquivo de clientes.\n");
+        return 1;
+    }
+    
+    FILE* temp = fopen("../txt/temp.txt", "w");
+    if (temp == NULL) {
+        printf("Erro ao criar arquivo temporário.\n");
+        fclose(txt);
+        return 1;
+    }
+    
+    Fornecedor fornecedor;
+    fornecedor.endereco = (Endereco*) malloc(sizeof(Endereco));
+    if (fornecedor.endereco == NULL) {
+        printf("Erro de alocação de memória.\n");
+        fclose(txt);
+        fclose(temp);
+        return 1;
+    }
+    
+    int encontrado = 0;
+    while (fscanf(txt, " %[^\n]", fornecedor.nomeFantasia) != EOF) {
+        fscanf(txt, " %s", fornecedor.cnpj);
+        fscanf(txt, " %[^\n]", fornecedor.telefone);
+        fscanf(txt, " %[^\n]", fornecedor.endereco->rua);
+        fscanf(txt, " %d", &fornecedor.endereco->numero);
+        fscanf(txt, " %[^\n]", fornecedor.endereco->bairro);
+        fscanf(txt, " %[^\n]", fornecedor.endereco->cidade);
+        fscanf(txt, " %[^\n]", fornecedor.endereco->estado);
+        fscanf(txt, " %[^\n]", fornecedor.email);
+        fscanf(txt, " %d/%d/%d", &fornecedor.dataCadastro.dia, &fornecedor.dataCadastro.mes, &fornecedor.dataCadastro.ano);
+        
+        if (strcmp(fornecedor.cnpj, cnpj) == 0) {
+            encontrado = 1;
+            printf("Digite os novos dados do fornecedor:\n");
+            printf("Nome: ");
+            scanf(" %[^\n]", fornecedor.nomeFantasia);
+            printf("Telefone: ");
+            scanf(" %[^\n]", fornecedor.telefone);
+            printf("Rua: ");
+            scanf(" %[^\n]", fornecedor.endereco->rua);
+            printf("Número: ");
+            scanf(" %d", &fornecedor.endereco->numero);
+            printf("Bairro: ");
+            scanf(" %[^\n]", fornecedor.endereco->bairro);
+            printf("Cidade: ");
+            scanf(" %[^\n]", fornecedor.endereco->cidade);
+            printf("Estado: ");
+            scanf(" %[^\n]", fornecedor.endereco->estado);
+            printf("Email: ");
+            scanf(" %[^\n]", fornecedor.email);
+            // Data de Cadastro
+            time_t t = time(NULL);
+            struct tm tm = *localtime(&t);
+            fornecedor.dataCadastro.dia = tm.tm_mday;
+            fornecedor.dataCadastro.mes = tm.tm_mon + 1;
+            fornecedor.dataCadastro.ano = tm.tm_year + 1900;
+        }
+        
+        fprintf(temp, "%s\n%s\n%s\n%s\n%d\n%s\n%s\n%s\n%s\n%02d/%02d/%02d\n\n",
+                fornecedor.nomeFantasia, fornecedor.cnpj, fornecedor.telefone, fornecedor.endereco->rua, fornecedor.endereco->numero, 
+                fornecedor.endereco->bairro, fornecedor.endereco->cidade, fornecedor.endereco->estado, 
+                fornecedor.email, fornecedor.dataCadastro.dia, fornecedor.dataCadastro.mes, fornecedor.dataCadastro.ano);
+    }
+    
+    fclose(txt);
+    fclose(temp);
+    free(fornecedor.endereco);
+    
+    if (!encontrado) {
+        printf("Fornecedor com CNPJ %s não encontrado.\n", cnpj);
+        remove("../txt/temp.txt");
+        return 1;
+    }
+    
+    remove(PATH_FORNECEDOR);
+    rename("../txt/temp.txt", PATH_FORNECEDOR);
+    printf("Fornecedor atualizado com sucesso!\n");
+    return 0;
+}
+
+/*
+    Função para buscar fornecedor.
+*/
 int buscarFornecedor(){
     char cnpj[15];
-    printf("Digite o CNPJ do cliente: ");
+    printf("Digite o CNPJ do fornecedor: ");
     scanf(" %s", cnpj);
     // Variavel de verificação
     int vf = 0;
