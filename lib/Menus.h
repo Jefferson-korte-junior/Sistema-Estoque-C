@@ -41,6 +41,21 @@ int menuAmbiente(char* ambiente) {
 }
 
 /*
+    Menu para Nota Fiscal:
+*/
+int MenuCompra() {
+    system("cls");
+    printf("-----------------------------------------------------\n");
+    printf("                   Nota Fiscal\n");
+    printf("-----------------------------------------------------\n\n");
+    printf("Selecione:\n");
+    printf("[1] > Realizar Compra\n");
+    printf("[2] > Vizualizar Notas Fiscais\n");
+    printf("[3] < Voltar\n");
+    return 0;
+}
+
+/*
     Menu Principal:
 */
 int menuPrincipal() {
@@ -432,7 +447,7 @@ int menuNotasFiscais() {
     // Variável de Menu
     int menu = 0;
     // Exibe o menu
-    menuAmbiente("Ambiente Estoque");
+    MenuCompra("Ambiente Nota Fiscal");
     // Lê a opção
     scanf("%d", &menu);
     // Verifica a opção escolhida
