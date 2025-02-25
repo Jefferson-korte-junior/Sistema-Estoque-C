@@ -11,6 +11,94 @@
 
 #define PATH_CLIENTE "../txt/Clientes.txt"
 
+int editarCliente() {
+    char cpf[15];
+    printf("Digite o CPF do cliente que deseja editar: ");
+    scanf(" %s", cpf);
+    
+    FILE* txt = fopen(PATH_CLIENTE, "r");
+    if (txt == NULL) {
+        printf("Erro ao abrir o arquivo de clientes.\n");
+        return 1;
+    }
+    
+    FILE* temp = fopen("../txt/temp.txt", "w");
+    if (temp == NULL) {
+        printf("Erro ao criar arquivo temporário.\n");
+        fclose(txt);
+        return 1;
+    }
+    
+    Cliente cliente;
+    cliente.endereco = (Endereco*) malloc(sizeof(Endereco));
+    if (cliente.endereco == NULL) {
+        printf("Erro de alocação de memória.\n");
+        fclose(txt);
+        fclose(temp);
+        return 1;
+    }
+    
+    int encontrado = 0;
+    while (fscanf(txt, " %[^\n]", cliente.nome) != EOF) {
+        fscanf(txt, " %s", cliente.cpf);
+        fscanf(txt, " %[^\n]", cliente.telefone);
+        fscanf(txt, " %[^\n]", cliente.endereco->rua);
+        fscanf(txt, " %d", &cliente.endereco->numero);
+        fscanf(txt, " %[^\n]", cliente.endereco->bairro);
+        fscanf(txt, " %[^\n]", cliente.endereco->cidade);
+        fscanf(txt, " %[^\n]", cliente.endereco->estado);
+        fscanf(txt, " %[^\n]", cliente.email);
+        fscanf(txt, " %d/%d/%d", &cliente.dataCadastro.dia, &cliente.dataCadastro.mes, &cliente.dataCadastro.ano);
+        
+        if (strcmp(cliente.cpf, cpf) == 0) {
+            encontrado = 1;
+            printf("Digite os novos dados do cliente:\n");
+            printf("Nome: ");
+            scanf(" %[^\n]", cliente.nome);
+            printf("Telefone: ");
+            scanf(" %[^\n]", cliente.telefone);
+            printf("Rua: ");
+            scanf(" %[^\n]", cliente.endereco->rua);
+            printf("Número: ");
+            scanf(" %d", &cliente.endereco->numero);
+            printf("Bairro: ");
+            scanf(" %[^\n]", cliente.endereco->bairro);
+            printf("Cidade: ");
+            scanf(" %[^\n]", cliente.endereco->cidade);
+            printf("Estado: ");
+            scanf(" %[^\n]", cliente.endereco->estado);
+            printf("Email: ");
+            scanf(" %[^\n]", cliente.email);
+            // Data de Cadastro
+            time_t t = time(NULL);
+            struct tm tm = *localtime(&t);
+            cliente.dataCadastro.dia = tm.tm_mday;
+            cliente.dataCadastro.mes = tm.tm_mon + 1;
+            cliente.dataCadastro.ano = tm.tm_year + 1900;
+        }
+        
+        fprintf(temp, "%s\n%s\n%s\n%s\n%d\n%s\n%s\n%s\n%s\n%02d/%02d/%02d\n\n",
+                cliente.nome, cliente.cpf, cliente.telefone, cliente.endereco->rua, cliente.endereco->numero, 
+                cliente.endereco->bairro, cliente.endereco->cidade, cliente.endereco->estado, 
+                cliente.email, cliente.dataCadastro.dia, cliente.dataCadastro.mes, cliente.dataCadastro.ano);
+    }
+    
+    fclose(txt);
+    fclose(temp);
+    free(cliente.endereco);
+    
+    if (!encontrado) {
+        printf("Cliente com CPF %s não encontrado.\n", cpf);
+        remove("../txt/temp.txt");
+        return 1;
+    }
+    
+    remove(PATH_CLIENTE);
+    rename("../txt/temp.txt", PATH_CLIENTE);
+    printf("Cliente atualizado com sucesso!\n");
+    return 0;
+}
+
 int buscarCliente(){
     char cpf[15];
     printf("Digite o CPF do cliente: ");

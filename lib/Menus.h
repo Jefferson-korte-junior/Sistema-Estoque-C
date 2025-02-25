@@ -248,7 +248,7 @@ int menuClientes() {
         break;
     case 4:
         system("cls");
-        buscarCliente();
+        editarCliente();
         break;
     case 5:
         // Volta a tela anterior

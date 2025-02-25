@@ -1,22 +1,33 @@
-Bruno Alcantara
-099.643.499-20
-45
-99988-2538
-170
-Sao Clemente
-Santa Helena
-Paran 
-bruno@gmail.com
-23/02/2025
+Igor
+12
+123
+sla
+12
+sla
+sla
+sla
+igorsla
+24/02/2025
 
-Jeff
-12345
+Marciano
+42509588842
+123
+ilda
+87
+cocorico
+piacatu
+sao paulo
+marcianoKuhn
+24/03/2002
+
+Bruninho
+1234
 123
 ipe
-123
-universidade
-santa helena
+12
+sla
+sao clemente
 parana
-jefercaminhoes
+bruninhoGamePlay
 24/02/2025
 
