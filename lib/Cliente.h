@@ -13,10 +13,8 @@
 
 int editarCliente() {
     char cpf[15];
-    printf ("//////////////////////////////////////////\n");
     printf("Digite o CPF do cliente que deseja editar: ");
     scanf(" %s", cpf);
-    printf ("\n//////////////////////////////////////////\n");
     
     FILE* txt = fopen(PATH_CLIENTE, "r");
     if (txt == NULL) {
@@ -84,7 +82,6 @@ int editarCliente() {
                 cliente.endereco->bairro, cliente.endereco->cidade, cliente.endereco->estado, 
                 cliente.email, cliente.dataCadastro.dia, cliente.dataCadastro.mes, cliente.dataCadastro.ano);
     }
-    printf ("\n//////////////////////////////////////////\n");
     
     fclose(txt);
     fclose(temp);
@@ -183,22 +180,19 @@ int cadastrarCliente(Cliente* cliente) {
     Mostra um cliente.
 */
 void mostrarCliente(Cliente cliente) {
-    // Data de cadastro
-    char data[10];
-    sprintf(data, "%02d/%02d/%02d", cliente.dataCadastro.dia, cliente.dataCadastro.mes, cliente.dataCadastro.ano);
     // Mostra o cliente
     printf("/////////////////////////////////////////////////////\n");
-    printf ("[Cliente]: %s\n", cliente.nome);
+    printf("[Nome]: %s\n", cliente.nome);
     printf("/////////////////////////////////////////////////////\n");
-    printf ("[CPF]: %s\n", cliente.cpf);
-    printf ("[Telefone]: %s\n", cliente.telefone);
-    printf ("[Rua]: %s, %d\n", cliente.endereco->rua, cliente.endereco->numero);
-    printf ("[Numero]: %d\n", cliente.endereco->numero);
-    printf ("[Bairro]: %s\n", cliente.endereco->bairro);
-    printf ("[Cidade]: %s\n", cliente.endereco->cidade);
-    printf ("[Estado]: %s\n", cliente.endereco->estado);
-    printf ("[Email]: %s\n", cliente.email);
-    printf ("[Data de Cadastro]: %s\n", data);
+    printf("[CPF]: %s\n", cliente.cpf);
+    printf("[Telefone]: %s\n", cliente.telefone);
+    printf("[Rua]: %s\n", cliente.endereco->rua);
+    printf("[Numero]: %d\n", cliente.endereco->numero);
+    printf("[Bairro]: %s\n", cliente.endereco->bairro);
+    printf("[Cidade]: %s\n", cliente.endereco->cidade);
+    printf("[Estado]: %s\n", cliente.endereco->estado);
+    printf("[Email]: %s\n", cliente.email);
+    printf("[Data de Cadastro]: %02d/%02d/%02d\n", cliente.dataCadastro.dia, cliente.dataCadastro.mes, cliente.dataCadastro.ano);
     printf("/////////////////////////////////////////////////////\n\n");
 }
 

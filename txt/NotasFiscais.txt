@@ -1,0 +1,16 @@
+jefferson
+2
+ agua 
+ 4 20.00
+ guarana 
+ 8 160.00
+180.00
+
+Marciano
+2
+ cola coca 
+ 6 90.00
+ sprite 
+ 12 216.00
+306.00
+

@@ -8,6 +8,7 @@
 #include "Cliente.h"
 #include "Fornecedor.h"
 #include "Structs.h"
+#include "NotaFiscal.h"
 
 // Protótipos
 int menuAmbiente(char* ambiente);
@@ -437,8 +438,10 @@ int menuNotasFiscais() {
     // Verifica a opção escolhida
     switch(menu) {
     case 1:
+        realizarCompra();
         break;
     case 2:
+        mostrarNotasFiscais();
         break;
     case 3:
         return 0;
