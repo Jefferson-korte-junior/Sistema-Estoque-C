@@ -205,24 +205,15 @@ int cadastrarProduto(Produto* produto) {
     Mostra um produto.
 */
 void mostrarProduto(Produto produto) {
-    char valorCompra[30], valorVenda[30], lucro[30], qtd[30];
-    sprintf(valorCompra, "%.2f", produto.valorCompra);
-    sprintf(valorVenda, "%.2f", produto.valorVenda);
-    sprintf(lucro, "%.2f", produto.lucro);
-    sprintf(qtd, "%d", produto.qtd);
-
-    // Data de cadastro
-    char data[10];
-    sprintf(data, "%02d/%02d/%02d", produto.dataCadastro.dia, produto.dataCadastro.mes, produto.dataCadastro.ano);
     // Mostra o cliente
     printf("/////////////////////////////////////////////////////\n");
     printf ("[Produto]: %s\n", produto.nome);
     printf("/////////////////////////////////////////////////////\n");
-    printf ("[Valor de Compra]: R$%s\n", valorCompra);
-    printf ("[Valor de Venda]: R$%s\n", valorVenda);
-    printf ("[Lucro]: R$%s\n", lucro);
-    printf ("[Quantidade]: %s\n", qtd);
-    printf ("[Data de Cadastro]: %s\n", data);
+    printf ("[Valor de Compra]: R$%.2f\n", produto.valorCompra);
+    printf ("[Valor de Venda]: R$%.2f\n", produto.valorVenda);
+    printf ("[Lucro]: R$%.2f\n", produto.lucro);
+    printf ("[Quantidade]: %d\n", produto.qtd);
+    printf ("[Data de Cadastro]: %02d/%02d/%02d \n", produto.dataCadastro.dia, produto.dataCadastro.mes, produto.dataCadastro.ano);
     printf("/////////////////////////////////////////////////////\n\n");
 }
 

@@ -85,9 +85,19 @@ void realizarCompra() {
             char nomeProduto[50];
             int quantidade;
             printf("> [Adicionar] Digite o nome do produto:\n");
-            scanf(" %[^\n]", nomeProduto);
+            if (scanf(" %[^\n]", nomeProduto) == 0 || strlen(nomeProduto) <= 0) {
+                free(cliente.endereco);
+                free(produtosComprados);
+                free(quantidades);
+                return;
+            }
             printf("> [Adicionar] Digite quantas unidades deseja:\n");
-            scanf("%d", &quantidade);
+            if (scanf("%d", &quantidade) == 0 || quantidade <= 0) {
+                free(cliente.endereco);
+                free(produtosComprados);
+                free(quantidades);
+                return;
+            }
             // Variável de verificação
             int produtoEncontrado = 0;
             // Variável Produto
