@@ -104,18 +104,19 @@ int cadastrarFornecedor(Fornecedor* fornecedor) {
 */
 int editarFornecedor() {
     char cnpj[15];
-    printf("Digite o CNPJ do fornecedor que deseja editar: ");
+    printf("-----------------------------------------------------\n");
+    printf("                   Editar Fornecedor\n");
+    printf("-----------------------------------------------------\n\n");
+    printf("> Digite o CNPJ do fornecedor que deseja editar:\n");
     scanf(" %s", cnpj);
     
     FILE* txt = fopen(PATH_FORNECEDOR, "r");
     if (txt == NULL) {
-        printf("Erro ao abrir o arquivo de fornecedores.\n");
         return 1;
     }
     
     FILE* temp = fopen("../txt/temp.txt", "w");
     if (temp == NULL) {
-        printf("Erro ao criar arquivo temporário.\n");
         fclose(txt);
         return 1;
     }
@@ -123,7 +124,6 @@ int editarFornecedor() {
     Fornecedor fornecedor;
     fornecedor.endereco = (Endereco*) malloc(sizeof(Endereco));
     if (fornecedor.endereco == NULL) {
-        printf("Erro de alocação de memória.\n");
         fclose(txt);
         fclose(temp);
         return 1;
@@ -195,7 +195,10 @@ int editarFornecedor() {
 */
 int buscarFornecedor(){
     char cnpj[15];
-    printf("Digite o CNPJ do fornecedor: ");
+    printf("-----------------------------------------------------\n");
+    printf("                  Buscar FOrnecedor\n");
+    printf("-----------------------------------------------------\n\n");
+    printf("> Digite o CNPJ do fornecedor:\n");
     scanf(" %s", cnpj);
     // Variavel de verificação
     int vf = 0;
@@ -267,11 +270,12 @@ void mostrarfornecedor(Fornecedor fornecedor) {
     printf("-----------------------------------------------------\n");
     printf("> %s\n", fornecedor.nomeFantasia);
     printf("-----------------------------------------------------\n");
-    printf("    + CNPJ: %s\n", fornecedor.cnpj);
-    printf("    + Telefone: %s\n", fornecedor.telefone);
-    printf("    + Endereco: %s, %d, %s, %s, %s\n", fornecedor.endereco->rua, fornecedor.endereco->numero, fornecedor.endereco->bairro, fornecedor.endereco->cidade, fornecedor.endereco->estado);
-    printf("    + Email: %s\n", fornecedor.email);
-    printf("    + Data de Cadastro: %02d/%02d/%02d\n\n", fornecedor.dataCadastro.dia, fornecedor.dataCadastro.mes, fornecedor.dataCadastro.ano);
+    printf(" CNPJ: %s\n", fornecedor.cnpj);
+    printf(" Telefone: %s\n", fornecedor.telefone);
+    printf(" Endereco: %s, %d, %s, %s, %s\n", fornecedor.endereco->rua, fornecedor.endereco->numero, fornecedor.endereco->bairro, fornecedor.endereco->cidade, fornecedor.endereco->estado);
+    printf(" Email: %s\n", fornecedor.email);
+    printf(" Data de Cadastro: %02d/%02d/%02d\n\n", fornecedor.dataCadastro.dia, fornecedor.dataCadastro.mes, fornecedor.dataCadastro.ano);
+    printf("-----------------------------------------------------\n");
 }
 
 /*
@@ -290,7 +294,6 @@ int listarFornecedores(int ver) {
     }
     // Verifica se o arquivo foi aberto
     if (txt == NULL) {
-        printf("-> Problema ao tentar abrir arquivo...\n");
         return 1;
     }
     // Faz a leitura do arquivo

@@ -106,18 +106,19 @@ int cadastrarCliente(Cliente* cliente) {
 */
 int editarCliente() {
     char cpf[15];
-    printf("Digite o CPF do cliente que deseja editar: ");
+    printf("-----------------------------------------------------\n");
+    printf("                    Editar Cliente\n");
+    printf("-----------------------------------------------------\n\n");
+    printf("> Digite o CPF do cliente que deseja editar:\n");
     scanf(" %s", cpf);
     
     FILE* txt = fopen(PATH_CLIENTE, "r");
     if (txt == NULL) {
-        printf("Erro ao abrir o arquivo de clientes.\n");
         return 1;
     }
     
     FILE* temp = fopen("../txt/temp.txt", "w");
     if (temp == NULL) {
-        printf("Erro ao criar arquivo temporário.\n");
         fclose(txt);
         return 1;
     }
@@ -125,7 +126,6 @@ int editarCliente() {
     Cliente cliente;
     cliente.endereco = (Endereco*) malloc(sizeof(Endereco));
     if (cliente.endereco == NULL) {
-        printf("Erro de alocação de memória.\n");
         fclose(txt);
         fclose(temp);
         return 1;
@@ -145,23 +145,23 @@ int editarCliente() {
         
         if (strcmp(cliente.cpf, cpf) == 0) {
             encontrado = 1;
-            printf("Digite os novos dados do cliente:\n");
-            printf("Nome: ");
+            printf("> Digite os novos dados do cliente:\n");
+            printf("> Nome: ");
             scanf(" %[^\n]", cliente.nome);
-            printf("Telefone: ");
+            printf("> Telefone: ");
             scanf(" %[^\n]", cliente.telefone);
-            printf("Rua: ");
+            printf("> Rua: ");
             scanf(" %[^\n]", cliente.endereco->rua);
-            printf("Número: ");
-            scanf(" %d", &cliente.endereco->numero);
-            printf("Bairro: ");
-            scanf(" %[^\n]", cliente.endereco->bairro);
-            printf("Cidade: ");
-            scanf(" %[^\n]", cliente.endereco->cidade);
-            printf("Estado: ");
-            scanf(" %[^\n]", cliente.endereco->estado);
-            printf("Email: ");
+            printf("> Email: ");
             scanf(" %[^\n]", cliente.email);
+            printf("> Número: ");
+            scanf(" %d", &cliente.endereco->numero);
+            printf("> Bairro: ");
+            scanf(" %[^\n]", cliente.endereco->bairro);
+            printf("> Cidade: ");
+            scanf(" %[^\n]", cliente.endereco->cidade);
+            printf(": Estado: ");
+            scanf(" %[^\n]", cliente.endereco->estado);
             // Data de Cadastro
             time_t t = time(NULL);
             struct tm tm = *localtime(&t);
@@ -181,14 +181,14 @@ int editarCliente() {
     free(cliente.endereco);
     
     if (!encontrado) {
-        printf("Cliente com CPF %s não encontrado.\n", cpf);
+        printf("-> Cliente com CPF %s não encontrado.\n", cpf);
         remove("../txt/temp.txt");
         return 1;
     }
     
     remove(PATH_CLIENTE);
     rename("../txt/temp.txt", PATH_CLIENTE);
-    printf("Cliente atualizado com sucesso!\n");
+    printf("-> Cliente atualizado com sucesso!\n");
     return 0;
 }
 
@@ -198,7 +198,10 @@ int editarCliente() {
 int buscarCliente(){
     // Solicita o CPF do Cliente
     char cpf[15];
-    printf("Digite o CPF do cliente: ");
+    printf("-----------------------------------------------------\n");
+    printf("                    Buscar Cliente\n");
+    printf("-----------------------------------------------------\n\n");
+    printf("> Digite o CPF do cliente:\n");
     scanf(" %s", cpf);
     // Variavel de verificação
     int vf = 0;
@@ -208,7 +211,6 @@ int buscarCliente(){
     FILE* txt = fopen(PATH_CLIENTE, "r");
     // Verifica se o arquivo foi aberto e se a alocação de memória do endereço foi feita
     if (txt == NULL || cliente.endereco == NULL) {
-        printf("Erro ao abrir o arquivo de clientes.\n");
         return 1;
     }
     // Faz a leitura do arquivo
@@ -268,7 +270,6 @@ int listarClientes(int ver) {
     FILE* txt = fopen(PATH_CLIENTE, "r");
     // Verifica se o arquivo foi aberto e se a alocação de memória do endereço foi feita
     if (txt == NULL || cliente.endereco == NULL) {
-        printf("Erro ao abrir o arquivo de clientes.\n");
         return 1;
     }
     // Faz a leitura do arquivo
@@ -306,7 +307,6 @@ int zerarClientes() {
     FILE* txt = fopen(PATH_CLIENTE, "w");
     // Verifica se o arquivo foi aberto
     if (txt == NULL) {
-        printf("Erro ao abrir o arquivo de clientes.\n");
         return 1;
     }
     // Fecha o arquivo

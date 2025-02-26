@@ -102,20 +102,19 @@ int cadastrarProduto(Produto* produto) {
 */
 int editarProduto() {
     char nome[35];
-    printf("--------------------------------------------\n");
-    printf("Digite o nome do Produto que deseja editar: ");
+    printf("-----------------------------------------------------\n");
+    printf("                    Editar Produto\n");
+    printf("-----------------------------------------------------\n\n");
+    printf("> Digite o nome do Produto que deseja editar:\n");
     scanf(" %[^\n]", nome);
-    printf("\n--------------------------------------------\n");
     
     FILE* txt = fopen(PATH_PRODUTO, "r");
     if (txt == NULL) {
-        printf("Erro ao abrir o arquivo de clientes.\n");
         return 1;
     }
     
     FILE* temp = fopen("../txt/temp.txt", "w");
     if (temp == NULL) {
-        printf("Erro ao criar arquivo temporário.\n");
         fclose(txt);
         return 1;
     }
@@ -132,15 +131,15 @@ int editarProduto() {
         
         if (strcmp(produto.nome, nome) == 0) {
             encontrado = 1;
-            printf("Digite os novos dados do produto:\n");
-            printf("Nome: ");
+            printf("> Digite os novos dados do produto:\n");
+            printf("> Nome: ");
             scanf(" %[^\n]", produto.nome);
-            printf("Valor de compra: ");
+            printf("> Valor de compra: ");
             scanf(" %f", &produto.valorCompra);
-            printf("Valor de Venda: ");
+            printf("> Valor de Venda: ");
             scanf(" %f", &produto.valorVenda);
             produto.lucro = produto.valorVenda - produto.valorCompra;
-            printf("Quantidade: ");
+            printf("> Quantidade: ");
             scanf(" %d", &produto.qtd);
             time_t t = time(NULL);
             struct tm tm = *localtime(&t);
@@ -153,20 +152,19 @@ int editarProduto() {
                 produto.nome, produto.valorCompra, produto.valorVenda, produto.lucro, produto.qtd, 
                 produto.dataCadastro.dia, produto.dataCadastro.mes, produto.dataCadastro.ano);
     }
-    printf("--------------------------------------------\n");
     
     fclose(txt);
     fclose(temp);
     
     if (!encontrado) {
-        printf("Nome do produto %s não encontrado.\n", nome);
+        printf("-> Produto %s não encontrado.\n", nome);
         remove("../txt/temp.txt");
         return 1;
     }
     
     remove(PATH_PRODUTO);
     rename("../txt/temp.txt", PATH_PRODUTO);
-    printf("Produto atualizado com sucesso!\n");
+    printf("-> Produto atualizado com sucesso!\n");
     return 0;
 }
 
@@ -175,7 +173,10 @@ int editarProduto() {
 */
 int buscarProduto(){
     char nome[30];
-    printf("Digite o nome do Produto: ");
+    printf("-----------------------------------------------------\n");
+    printf("                    Buscar Produto\n");
+    printf("-----------------------------------------------------\n\n");
+    printf("> Digite o nome do Produto:\n");
     scanf(" %[^\n]", nome);
     // Variavel de verificação
     int vf = 0;
