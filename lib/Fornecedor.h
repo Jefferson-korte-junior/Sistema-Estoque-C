@@ -9,6 +9,15 @@
 
 #define PATH_FORNECEDOR "../txt/Fornecedores.txt"
 
+// Protótipos
+Fornecedor* novoFornecedor();
+int cadastrarFornecedor(Fornecedor* fornecedor);
+int editarFornecedor();
+int buscarFornecedor();
+void mostrarFornecedor(Fornecedor fornecedor);
+int listarFornecedores(int ver);
+int zerarFornecedores();
+
 /*
     Novo Fornecedor:
 */
@@ -18,51 +27,76 @@ Fornecedor* novoFornecedor() {
     if (novoFornecedor == NULL) {
         return NULL;
     }
-    // Id
-    if (verFornecedores(0) == -1) {
-        novoFornecedor->id = 1;
-    } else {
-        novoFornecedor->id = verFornecedores(0) + 1;
-    }
     system("cls");
-    printf("-> Fornecedor #%02d\n\n", novoFornecedor->id);
+    printf("-----------------------------------------------------\n");
+    printf("                   Novo Fornecedor\n");
+    printf("-----------------------------------------------------\n\n");
     // Nome Fantasia
     printf("> Digite o nome Fantasia:\n");
-    if (scanf(" %[^\n]", (*novoFornecedor).nomeFantasia) == 0 || strlen((*novoFornecedor).nomeFantasia) <= 0) {
+    if (scanf(" %[^\n]", novoFornecedor->nomeFantasia) == 0 || strlen(novoFornecedor->nomeFantasia) <= 0) {
         free(novoFornecedor);
         return NULL;
     }
     // Cnpj
     printf("> Digite o CNPJ:\n");
-    if (scanf(" %s", (*novoFornecedor).cnpj) == 0 || strlen((*novoFornecedor).cnpj) != 11) {
+    if (scanf(" %s", novoFornecedor->cnpj) == 0 || strlen(novoFornecedor->cnpj) != 11) {
         free(novoFornecedor);
         return NULL;
     }
     // Telefone
     printf("> Digite o Telefone:\n");
-    if (scanf(" %s", (*novoFornecedor).telefone) == 0 || (strlen((*novoFornecedor).telefone) <= 0)) {
+    if (scanf(" %s", novoFornecedor->telefone) == 0 || (strlen(novoFornecedor->telefone) <= 0)) {
         free(novoFornecedor);
         return NULL;
     }
     // Endereço
-    (*novoFornecedor).endereco = novoEndereco();
-    if ((*novoFornecedor).endereco == NULL || (strlen((*novoFornecedor).endereco->rua) < 0)) {
+    novoFornecedor->endereco = novoEndereco();
+    if (novoFornecedor->endereco == NULL) {
         free(novoFornecedor);
         return NULL;
     }
     // Email
     printf("> Digite o email:\n");
-    if (scanf(" %s", (*novoFornecedor).email) == 0 || (strlen(novoFornecedor->email) <= 0 || strstr(novoFornecedor->email, "@") == NULL)) {
+    if (scanf(" %s", novoFornecedor->email) == 0 || (strlen(novoFornecedor->email) <= 0 || strstr(novoFornecedor->email, "@") == NULL)) {
         free(novoFornecedor);
         return NULL;
     }
     // Data de Cadastro
     time_t t = time(NULL);
     struct tm tm = *localtime(&t);
-    (*novoFornecedor).dataCadastro.dia = tm.tm_mday;
-    (*novoFornecedor).dataCadastro.mes = tm.tm_mon + 1;
-    (*novoFornecedor).dataCadastro.ano = tm.tm_year + 1900;
+    novoFornecedor->dataCadastro.dia = tm.tm_mday;
+    novoFornecedor->dataCadastro.mes = tm.tm_mon + 1;
+    novoFornecedor->dataCadastro.ano = tm.tm_year + 1900;
     return novoFornecedor;
+}
+
+/*
+    Cadastra um fornecedor.
+*/
+int cadastrarFornecedor(Fornecedor* fornecedor) {
+    // Abre o arquivo
+    FILE* txt = fopen(PATH_FORNECEDOR, "a");
+    // Verifica se o arquivo foi aberto
+    if (txt == NULL) {
+        return 1;
+    }
+    // Escreve no arquivo os dados
+    fprintf(txt, "%s\n%s\n%s\n%s\n%d\n%s\n%s\n%s\n%s\n%02d/%02d/%02d\n\n",
+    fornecedor->nomeFantasia,
+    fornecedor->cnpj,
+    fornecedor->telefone,
+    fornecedor->endereco->rua,
+    fornecedor->endereco->numero,
+    fornecedor->endereco->bairro,
+    fornecedor->endereco->cidade,
+    fornecedor->endereco->estado,
+    fornecedor->email,
+    fornecedor->dataCadastro.dia,
+    fornecedor->dataCadastro.mes,
+    fornecedor->dataCadastro.ano);
+    // Fecha o arquivo
+    fclose(txt);
+    return 0;
 }
 
 /*
@@ -75,7 +109,7 @@ int editarFornecedor() {
     
     FILE* txt = fopen(PATH_FORNECEDOR, "r");
     if (txt == NULL) {
-        printf("Erro ao abrir o arquivo de clientes.\n");
+        printf("Erro ao abrir o arquivo de fornecedores.\n");
         return 1;
     }
     
@@ -161,10 +195,8 @@ int editarFornecedor() {
 */
 int buscarFornecedor(){
     char cnpj[15];
-    printf("////////////////////////////////////////////\n");
     printf("Digite o CNPJ do fornecedor: ");
     scanf(" %s", cnpj);
-    printf("\n////////////////////////////////////////////\n");
     // Variavel de verificação
     int vf = 0;
     Fornecedor fornecedor;
@@ -190,29 +222,19 @@ int buscarFornecedor(){
         fscanf(txt, " %[^\n]", fornecedor.endereco->estado);
         fscanf(txt, " %s", fornecedor.email);
         fscanf(txt, " %d/%d/%d", &fornecedor.dataCadastro.dia, &fornecedor.dataCadastro.mes, &fornecedor.dataCadastro.ano);
-         // mostrarCliente(cliente);
-         if (strcmp(fornecedor.cnpj, cnpj) == 0) {
+        // mostrarFornecedor(fornecedor);
+        if (strcmp(fornecedor.cnpj, cnpj) == 0) {
+            // Mostra o Fornecedor
             mostrarFornecedor(fornecedor);
-            
+            // Fecha o arquivo
+            fclose(txt);
+            return 0;
         }
         vf++;
     }
-    fclose(txt);
-    printf("\n////////////////////////////////////////////\n");
-}
-/*
-    Zera a lista de fornecedores.
-*/
-int zerarFornecedores() {
-    // Abre o arquivo
-    FILE* txt = fopen(PATH_FORNECEDOR, "w");
-    // Verifica se o arquivo foi aberto
-    if (txt == NULL) {
-        return 1;
-    }
     // Fecha o arquivo
     fclose(txt);
-    return 0;
+    return 1;
 }
 
 /*
@@ -223,9 +245,9 @@ void mostrarFornecedor(Fornecedor fornecedor) {
     char data[10];
     sprintf(data, "%02d/%02d/%02d", fornecedor.dataCadastro.dia, fornecedor.dataCadastro.mes, fornecedor.dataCadastro.ano);
     // Mostra o fornecedor
-    printf("/////////////////////////////////////////////////////\n");
+    printf("-----------------------------------------------------\n");
     printf ("[Fornecedor]: %s\n", fornecedor.nomeFantasia);
-    printf("/////////////////////////////////////////////////////\n");
+    printf("-----------------------------------------------------\n");
     printf ("[CNPJ]: %s\n", fornecedor.cnpj);
     printf ("[Telefone]: %s\n", fornecedor.telefone);
     printf ("[Rua]: %s, %d\n", fornecedor.endereco->rua, fornecedor.endereco->numero);
@@ -235,36 +257,7 @@ void mostrarFornecedor(Fornecedor fornecedor) {
     printf ("[Estado]: %s\n", fornecedor.endereco->estado);
     printf ("[Email]: %s\n", fornecedor.email);
     printf ("[Data de Cadastro]: %s\n", data);
-    printf("/////////////////////////////////////////////////////\n\n");
-}
-
-/*
-    Cadastra um fornecedor.
-*/
-int cadastrarFornecedor(Fornecedor* fornecedor) {
-    // Abre o arquivo
-    FILE* txt = fopen(PATH_FORNECEDOR, "a");
-    // Verifica se o arquivo foi aberto
-    if (txt == NULL) {
-        return 1;
-    }
-    // Escreve no arquivo os dados
-    fprintf(txt, "%s\n%s\n%s\n%s\n%d\n%s\n%s\n%s\n%s\n%02d/%02d/%02d\n\n",
-    fornecedor->nomeFantasia,
-    fornecedor->cnpj,
-    fornecedor->telefone,
-    fornecedor->endereco->rua,
-    fornecedor->endereco->numero,
-    fornecedor->endereco->bairro,
-    fornecedor->endereco->cidade,
-    fornecedor->endereco->estado,
-    fornecedor->email,
-    fornecedor->dataCadastro.dia,
-    fornecedor->dataCadastro.mes,
-    fornecedor->dataCadastro.ano);
-    // Fecha o arquivo
-    fclose(txt);
-    return 0;
+    printf("-----------------------------------------------------\n");
 }
 
 /*
@@ -284,7 +277,7 @@ void mostrarfornecedor(Fornecedor fornecedor) {
 /*
     Mostra a lista de cadastrados.
 */
-int verFornecedores(int ver) {
+int listarFornecedores(int ver) {
     // Variavel Fornecedor
     int vf = 0;
     // Variavel Fornecedor para leitura
@@ -322,6 +315,21 @@ int verFornecedores(int ver) {
     if (vf == 0) {
         return -1;
     }
+    return 0;
+}
+
+/*
+    Zera a lista de fornecedores.
+*/
+int zerarFornecedores() {
+    // Abre o arquivo
+    FILE* txt = fopen(PATH_FORNECEDOR, "w");
+    // Verifica se o arquivo foi aberto
+    if (txt == NULL) {
+        return 1;
+    }
+    // Fecha o arquivo
+    fclose(txt);
     return 0;
 }
 

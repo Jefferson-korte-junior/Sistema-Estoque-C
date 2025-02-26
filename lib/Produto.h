@@ -9,7 +9,16 @@
 #include "Menus.h"	
 #include "Endereco.h"
 
-#define PATH_PRODUTO "../txt/Estoque.txt"
+#define PATH_PRODUTO "../txt/Produtos.txt"
+
+// Protótipos
+Produto* novoProduto();
+int cadastrarProduto(Produto* produto);
+int editarProduto();
+int buscarProduto();
+void mostrarProduto(Produto produto);
+int listarProdutos(int ver);
+int zerarProdutos();
 
 /*
     Novo Produto:
@@ -20,14 +29,10 @@ Produto* novoProduto() {
     if (novoProduto == NULL) {
         return NULL;
     }
-    // Id
-    if (verEstoque(0) == -1) {
-        novoProduto->id = 1;
-    } else {
-        novoProduto->id = verEstoque(0) + 1;
-    }
     system("cls");
-    printf("-> Novo Produto #%02d\n\n", novoProduto->id);
+    printf("-----------------------------------------------------\n");
+    printf("                    Novo Produto\n");
+    printf("-----------------------------------------------------\n\n");
     // Nome
     printf("> Digite o nome:\n");
     if (scanf(" %[^\n]", novoProduto->nome) == 0 || strlen(novoProduto->nome) <= 0) {
@@ -47,7 +52,7 @@ Produto* novoProduto() {
         return NULL;
     }
     // Valor Venda
-    printf("> Digite a quantidade em Estoque:\n");
+    printf("> Digite a quantidade em Produtos:\n");
     if (scanf("%d", &novoProduto->qtd) == 0 || novoProduto->qtd <= 0) {
         free(novoProduto);
         return NULL;
@@ -67,12 +72,40 @@ Produto* novoProduto() {
     return novoProduto;
 }
 
+/*
+    Cadastra um produto.
+*/
+int cadastrarProduto(Produto* produto) {
+    // Abre o arquivo
+    FILE* txt = fopen(PATH_PRODUTO, "a");
+    // Verifica se o arquivo foi aberto
+    if (txt == NULL) {
+        return 1;
+    }
+    // Escreve no arquivo os dados
+    fprintf(txt, "%s\n%.2f\n%.2f\n%.2f\n%d\n%02d/%02d/%02d\n\n",
+    produto->nome,
+    produto->valorCompra,
+    produto->valorVenda,    
+    produto->lucro, 
+    produto->qtd,
+    produto->dataCadastro.dia,
+    produto->dataCadastro.mes,
+    produto->dataCadastro.ano);
+    // Fecha o arquivo
+    fclose(txt);
+    return 0;
+}
+
+/*
+    Editar Produto:
+*/
 int editarProduto() {
     char nome[35];
-    printf("////////////////////////////////////////////\n");
+    printf("--------------------------------------------\n");
     printf("Digite o nome do Produto que deseja editar: ");
     scanf(" %[^\n]", nome);
-    printf("\n////////////////////////////////////////////\n");
+    printf("\n--------------------------------------------\n");
     
     FILE* txt = fopen(PATH_PRODUTO, "r");
     if (txt == NULL) {
@@ -120,7 +153,7 @@ int editarProduto() {
                 produto.nome, produto.valorCompra, produto.valorVenda, produto.lucro, produto.qtd, 
                 produto.dataCadastro.dia, produto.dataCadastro.mes, produto.dataCadastro.ano);
     }
-    printf("\n////////////////////////////////////////////\n");
+    printf("--------------------------------------------\n");
     
     fclose(txt);
     fclose(temp);
@@ -137,6 +170,9 @@ int editarProduto() {
     return 0;
 }
 
+/*
+    Busca um Produto:
+*/
 int buscarProduto(){
     char nome[30];
     printf("Digite o nome do Produto: ");
@@ -161,66 +197,27 @@ int buscarProduto(){
     fclose(txt);
     return 0;
 }
-/*
-    Zera a lista de produtos.
-*/
-int zerarProdutos() {
-    // Abre o arquivo
-    FILE* txt = fopen(PATH_PRODUTO, "w");
-    // Verifica se o arquivo foi aberto
-    if (txt == NULL) {
-        return 1;
-    }
-    // Fecha o arquivo
-    fclose(txt);
-    return 0;
-}
 
 /*
-    Cadastra um produto.
-*/
-int cadastrarProduto(Produto* produto) {
-    // Abre o arquivo
-    FILE* txt = fopen(PATH_PRODUTO, "a");
-    // Verifica se o arquivo foi aberto
-    if (txt == NULL) {
-        return 1;
-    }
-    // Escreve no arquivo os dados
-    fprintf(txt, "%s\n%.2f\n%.2f\n%.2f\n%d\n%02d/%02d/%02d\n\n",
-    produto->nome,
-    produto->valorCompra,
-    produto->valorVenda,    
-    produto->lucro, 
-    produto->qtd,
-    produto->dataCadastro.dia,
-    produto->dataCadastro.mes,
-    produto->dataCadastro.ano);
-    // Fecha o arquivo
-    fclose(txt);
-    return 0;
-}
-
-/*
-    Mostra um produto.
+    Mostra um produto:
 */
 void mostrarProduto(Produto produto) {
     // Mostra o cliente
-    printf("/////////////////////////////////////////////////////\n");
+    printf("-----------------------------------------------------\n");
     printf ("[Produto]: %s\n", produto.nome);
-    printf("/////////////////////////////////////////////////////\n");
+    printf("-----------------------------------------------------\n");
     printf ("[Valor de Compra]: R$%.2f\n", produto.valorCompra);
     printf ("[Valor de Venda]: R$%.2f\n", produto.valorVenda);
     printf ("[Lucro]: R$%.2f\n", produto.lucro);
     printf ("[Quantidade]: %d\n", produto.qtd);
     printf ("[Data de Cadastro]: %02d/%02d/%02d \n", produto.dataCadastro.dia, produto.dataCadastro.mes, produto.dataCadastro.ano);
-    printf("/////////////////////////////////////////////////////\n\n");
+    printf("-----------------------------------------------------\n\n");
 }
 
 /*
     Mostra a lista de cadastrados.
 */
-int verEstoque(int ver) {
+int listarProdutos(int ver) {
     // Variável de verificação
     int vf = 0;
     // Variavel Produto para leitura
@@ -249,6 +246,21 @@ int verEstoque(int ver) {
     if (vf == 0) {
         return -1;
     }
+    return 0;
+}
+
+/*
+    Zera a lista de Produtos:
+*/
+int zerarProdutos() {
+    // Abre o arquivo
+    FILE* txt = fopen(PATH_PRODUTO, "w");
+    // Verifica se o arquivo foi aberto
+    if (txt == NULL) {
+        return 1;
+    }
+    // Fecha o arquivo
+    fclose(txt);
     return 0;
 }
 

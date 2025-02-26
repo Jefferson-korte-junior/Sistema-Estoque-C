@@ -4,17 +4,38 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
 #include "Structs.h"
 #include "Cliente.h"
 #include "Produto.h"
 
 #define PATH_NOTAS_FISCAIS "../txt/NotasFiscais.txt"
 
-void realizarCompra() {
-    char cpf[15];
+// Funções
+int novaNotaFiscal();
+void mostrarNotaFiscal(NotaFiscal notaFiscal);
+int listarNotasFiscais(int ver);
+int zerarNotasFiscais();
+
+int novaNotaFiscal() {  
+    // Mostra
     system("cls");
-    printf("> Digite o CPF do cliente: ");
-    scanf(" %s", cpf);
+    printf("-----------------------------------------------------\n");
+    printf("                  Nova Nota Fiscal \n");
+    printf("-----------------------------------------------------\n\n");
+    // Data
+    Data data;
+    time_t t = time(NULL);
+    struct tm tm = *localtime(&t);
+    data.dia = tm.tm_mday;
+    data.mes = tm.tm_mon + 1;
+    data.ano = tm.tm_year + 1900;
+    // Solicita o CPF do Cliente
+    char cpf[15];
+    printf("> Digite o CPF do cliente:\n");
+    if (scanf(" %s", cpf) == 0 || strlen(cpf) != 11) {
+        return 1;
+    }
     // Variável de verificação
     int clienteEncontrado = 0;
     Cliente cliente;
@@ -23,7 +44,7 @@ void realizarCompra() {
     if (txtCliente == NULL || cliente.endereco == NULL) {
         printf("-> Erro ao abrir o arquivo de clientes.\n");
         free(cliente.endereco);
-        return;
+        return 1;
     }
     // Busca o cliente pelo CPF
     while (fscanf(txtCliente, " %[^\n]", cliente.nome) != EOF) {
@@ -41,30 +62,39 @@ void realizarCompra() {
             break;
         }
     }
+    // Fecha o Arquivo
     fclose(txtCliente);
-
+    // Verifica se não foi encontrado
     system("cls");
     if (!clienteEncontrado) {
         printf("-> Cliente não encontrado.\n");
         free(cliente.endereco);
-        return;
+        return 1;
     }
-
+    // Informa que encontrou o Cliente
     printf("\n-> Cliente encontrado:\n\n");
-    printf("/////////////////////////////////////////////////\n");
+    printf("-----------------------------------------------------\n");
     printf("[CLIENTE]: %s\n", cliente.nome);
-    printf("/////////////////////////////////////////////////\n\n");
+    printf("-----------------------------------------------------\n\n");
     float valorTotal = 0;
     Produto* produtosComprados = NULL;
     int* quantidades = NULL;
     int numProdutos = 0;
     int qtdPedidos = 0;
-
+    // Solicita a observação da Nota Fiscal
+    char observacao[100];
+    system("pause && cls");
+    printf("> Digite uma Observacao a Nota Fiscal:\n");
+    if (scanf(" %s", observacao) == 0 || strlen(observacao) <= 0) {
+        return 1;
+    }
+    // Solicita os Produtos
     while (1) {
         char continuar;
-        printf("> Deseja adicionar um produto? (Digite 's' para continuar e 'n' para sair): ");
+        printf("> Deseja adicionar um produto? (Digite 's' para continuar e 'n' para sair):\n");
         scanf(" %c", &continuar);
         if (continuar == 'n' || continuar == 'N') {
+            return -1;
             break;
         } else if(continuar == 's' || continuar == 'S') {
             qtdPedidos++;
@@ -75,12 +105,12 @@ void realizarCompra() {
                 free(cliente.endereco);
                 free(produtosComprados);
                 free(quantidades);
-                return;
+                return 1;
             }
             // Mostra a Lista de Produtos para o Usuário visualizar
             system("cls");
             printf("\n-> Produtos a selecionar:\n\n");
-            verEstoque(1);
+            listarProdutos(1);
             // Solicita o Produto e Quantidade
             char nomeProduto[50];
             int quantidade;
@@ -89,30 +119,28 @@ void realizarCompra() {
                 free(cliente.endereco);
                 free(produtosComprados);
                 free(quantidades);
-                return;
+                return 1;
             }
             printf("> [Adicionar] Digite quantas unidades deseja:\n");
             if (scanf("%d", &quantidade) == 0 || quantidade <= 0) {
                 free(cliente.endereco);
                 free(produtosComprados);
                 free(quantidades);
-                return;
+                return 1;
             }
             // Variável de verificação
             int produtoEncontrado = 0;
             // Variável Produto
             Produto produto;
             // Arquivos
-            FILE* txtProduto = fopen("../txt/Estoque.txt", "r");
+            FILE* txtProduto = fopen(PATH_PRODUTO, "r");
             FILE* tempProduto = fopen("../txt/temp.txt", "w");
             if (txtProduto == NULL || tempProduto == NULL) {
                 printf("-> Erro ao abrir o arquivo de produtos.\n");
                 free(cliente.endereco);
                 free(produtosComprados);
                 free(quantidades);
-                if (txtProduto != NULL) fclose(txtProduto);
-                if (tempProduto != NULL) fclose(tempProduto);
-                return;
+                return 1;
             }
             // Busca o produto pelo nome e atualiza a quantidade no estoque
             while (fscanf(txtProduto, " %[^\n]", produto.nome) != EOF) {
@@ -145,7 +173,7 @@ void realizarCompra() {
                 free(cliente.endereco);
                 free(produtosComprados);
                 free(quantidades);
-                return;
+                return 1;
             }
 
             printf("\n-> Produto adicionado na Nota Fiscal com sucesso!\n\n");
@@ -174,55 +202,107 @@ void realizarCompra() {
         free(cliente.endereco);
         free(produtosComprados);
         free(quantidades);
-        return;
+        return 1;
     }
     // Escreve no arquivo
+    fprintf(txt, "%s\n", observacao);
     fprintf(txt, "%s\n", cliente.nome);
     fprintf(txt, "%d\n", qtdPedidos);
     for (int i = 0; i < numProdutos; i++) {
-        fprintf(txt, " %s\n %d %.2f\n", produtosComprados[i].nome, quantidades[i], produtosComprados[i].valorVenda * quantidades[i]);
+        fprintf(txt, "%s\n%d\n%.2f\n", produtosComprados[i].nome, quantidades[i], produtosComprados[i].valorVenda * quantidades[i]);
     }
-    fprintf(txt, "%.2f\n\n", valorTotal);
+    fprintf(txt, "%.2f\n", valorTotal);
+    fprintf(txt, "%02d/%02d/%02d\n\n", data.dia, data.mes, data.ano);
     // Fecha o arquivo
     fclose(txt);
-
+    // Libera a memoria
     free(cliente.endereco);
     free(produtosComprados);
     free(quantidades);
+    return 0;
 }
 
 /*
-    Mostra as Notas Fiscais:
+    Mostra a Nota Fiscal:
 */
-void mostrarNotasFiscais() {
-    system("cls");
+void mostrarNotaFiscal(NotaFiscal notaFiscal) {
+    // Mostra a Nota Fiscal
+    printf("-----------------------------------------------------\n");
+    printf(" [Nota Fiscal]: %s\n", notaFiscal.observacao);
+    printf(" [Cliente]: %s\n", notaFiscal.cliente.nome);
+    printf("-----------------------------------------------------\n");
+    printf(" [Valor Total]: R$%.2f\n", notaFiscal.valorTotal);
+    printf(" [Data Fechamento]: %02d/%02d/%02d\n", notaFiscal.dataFechamento.dia, notaFiscal.dataFechamento.mes, notaFiscal.dataFechamento.ano);
+    printf("-----------------------------------------------------\n");
+    printf("      PDT       /      QTD      /      VAL. TOTAL\n");
+    printf("-----------------------------------------------------\n");
+    for (int i = 0; i < notaFiscal.qtdCompras; i++) {
+        printf("-> %s / %d / R$%.2f\n", notaFiscal.compras[i].produto.nome, notaFiscal.compras[i].qtdProduto, notaFiscal.compras[i].valor);
+    }
+    printf("-----------------------------------------------------\n\n");
+}
+
+/*
+    Lista as Notas Fiscais:
+*/
+int listarNotasFiscais(int ver) {
+    // Variavel de Verificação
+    int vf = 0;
+    // Abre o arquivo
     FILE* txt = fopen(PATH_NOTAS_FISCAIS, "r");
     if (txt == NULL) {
-        printf("Erro ao abrir o arquivo de notas fiscais.\n");
-        return;
+        printf("-> Erro ao abrir o arquivo de notas fiscais.\n");
+        return 1;
     }
-
-    char clienteNome[50];
-    int qtdPedidos;
-    char produtoNome[50];
-    int quantidade;
-    float valorProduto, valorTotal;
-
-    while (fscanf(txt, " %[^\n]", clienteNome) != EOF) {
-        printf("\nCliente: %s\n", clienteNome);
-        fscanf(txt, "%d", &qtdPedidos);
-        printf("Quantidade de pedidos: %d\n", qtdPedidos);
-        printf("Produtos comprados:\n");
-        for (int i = 0; i < qtdPedidos; i++) {
-            fscanf(txt, " %[^\n] %d %f", produtoNome, &quantidade, &valorProduto);
-            printf(" - Produto: %s, Quantidade: %d, Valor do Produto: R$%.2f, Valor Total: R$%.2f\n", produtoNome, quantidade, valorProduto / quantidade, valorProduto);
+    // Nota Fiscal
+    NotaFiscal notaFiscal;
+    while (fscanf(txt, " %[^\n]", notaFiscal.observacao) != EOF) {
+        fscanf(txt, " %[^\n]", notaFiscal.cliente.nome);
+        fscanf(txt, " %d", &notaFiscal.qtdCompras);
+        // Aloca a memória uma única vez
+        notaFiscal.compras = (Compra *)malloc(notaFiscal.qtdCompras * sizeof(Compra));
+        if (notaFiscal.compras == NULL) {
+            return 1;
         }
-        fscanf(txt, " %f", &valorTotal);
-        printf("Valor total da compra: R$%.2f\n", valorTotal);
-        printf("\n/////////////////////////////////////////////////\n");
+        // Faz a leitura dos Produtos da Nota
+        for (int i = 0; i < notaFiscal.qtdCompras; i++) {
+            fscanf(txt, " %[^\n]", notaFiscal.compras[i].produto.nome);
+            fscanf(txt, " %d", &notaFiscal.compras[i].qtdProduto);
+            fscanf(txt, " %f", &notaFiscal.compras[i].valor);
+        }
+        fscanf(txt, " %f", &notaFiscal.valorTotal);
+        fscanf(txt, " %02d/%02d/%04d", &notaFiscal.dataFechamento.dia, &notaFiscal.dataFechamento.mes, &notaFiscal.dataFechamento.ano);
+        if (ver == 1) {
+            mostrarNotaFiscal(notaFiscal);
+        }
+        free(notaFiscal.compras); // Liberar memória
+        vf++;
     }
-
+    // Libera memoria de Compras
+    free(notaFiscal.compras);
+    // Fecha o arquivo
     fclose(txt);
+    // Verifica se houve alguma Nota Cadastrada
+    if (vf == 0) {
+        return -1;
+    }
+    return 0;
+}
+
+/*
+    Zera a lista de Notas Fiscais:
+*/
+int zerarNotasFiscais() {
+    // Abre o arquivo
+    FILE* txt = fopen(PATH_NOTAS_FISCAIS, "w");
+    // Verifica se o arquivo foi aberto
+    if (txt == NULL) {
+        printf("-> Erro ao abrir o arquivo de notas fiscais.\n");
+        return 1;
+    }
+    // Fecha o arquivo
+    fclose(txt);
+    return 0;
 }
 
 #endif

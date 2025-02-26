@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h> 
 #include <time.h>
+
 #include "Produto.h"
 #include "Cliente.h"
 #include "Fornecedor.h"
@@ -20,7 +21,6 @@ Cliente* novoCliente();
 int menuFornecedores();
 Fornecedor* novoFornecedor();
 int menuNotasFiscais();
-NotaFiscal* novaNotaFiscal();
 
 
 /*
@@ -46,10 +46,10 @@ int menuAmbiente(char* ambiente) {
 int MenuCompra() {
     system("cls");
     printf("-----------------------------------------------------\n");
-    printf("                   Nota Fiscal\n");
+    printf("                    Nota Fiscal\n");
     printf("-----------------------------------------------------\n\n");
     printf("Selecione:\n");
-    printf("[1] > Realizar Compra\n");
+    printf("[1] > Abrir nova Nota Fiscal\n");
     printf("[2] > Vizualizar Notas Fiscais\n");
     printf("[3] < Voltar\n");
     return 0;
@@ -73,16 +73,24 @@ int menuPrincipal() {
     scanf("%d", &menu);
     switch(menu) {
     case 1:
-        menuEstoque();
+        if (menuEstoque() != 0) {
+            printf("Erro ao executar o menu de estoque.\n");
+        }
         break;
     case 2:
-        menuClientes();
+        if (menuClientes() != 0) {
+            printf("Erro ao executar o menu de clientes.\n");
+        }
         break;
     case 3:
-        menuFornecedores();
+        if (menuFornecedores() != 0) {
+            printf("Erro ao executar o menu de fornecedores.\n");
+        }
         break;
     case 4:
-        menuNotasFiscais();
+        if (menuNotasFiscais() != 0) {
+            printf("Erro ao executar o menu de notas fiscais.\n");
+        }
         break;
     case 5:
         printf("-> Saindo...\n");
@@ -103,6 +111,8 @@ int menuEstoque() {
     Produto* produto = NULL;
     // Variável de Menu
     int menu = 0;
+    // Variavel de verificação
+    int vf = 0;
     // Exibe o menu
     menuAmbiente("Ambiente Estoque");
     // Lê a opção
@@ -117,14 +127,14 @@ int menuEstoque() {
         // Limpa a tela
         system("cls");
         // Verifica se ha Itens no Estoque e se tem ja mostra
-        int vf = verEstoque(1);
+        vf = listarProdutos(1);
         // Verifica se houve algum problema
         if (vf == 1) {
             printf("-> Problema ao listar itens do Estoque!\n");
         } 
         // Verifica se nao ha nenhum Item
         else if (vf == -1) {
-            printf("-> Ainda nao ha nenhum Item cadastrado no Estoque!\n");
+            printf("\n-> Ainda nao ha nenhum Item cadastrado no Estoque!\n\n");
         }
         break;
     case 3: 
@@ -132,11 +142,12 @@ int menuEstoque() {
         produto = novoProduto();
         // Verifica se o Produto foi criado e se foi cadastrado
         if (produto != NULL && cadastrarProduto(produto) == 0) {
-            printf("-> Produto cadastrado com sucesso!\n");
+            system("cls");
+            printf("\n-> Produto cadastrado com sucesso!\n\n");
         }
         // Se nao foi cadastrado 
         else {
-            printf("-> Erro ao cadastrar Produto!\n");
+            printf("-> Problema ao cadastrar Produto!\n");
         }
         break;
     case 4:
@@ -164,6 +175,8 @@ int menuClientes() {
     Cliente* cliente = NULL;
     // Variável de Menu
     int menu = 0;
+    // Variavel de verificação
+    int vf = 0;
     // Exibe o menu
     menuAmbiente("Ambiente Cliente");
     // Lê a opção
@@ -177,14 +190,14 @@ int menuClientes() {
         // Limpa a tela
         system("cls");
         // Verifica se ha Clientes e se tem ja mostra
-        int vf = verClientes(1);
+        vf = listarClientes(1);
         // Verifica se houve algum problema
         if (vf == 1) {
             printf("-> Problema ao listar Clientes!\n");
         } 
         // Verifica se nao ha nenhum Cliente
         else if (vf == -1) {
-            printf("-> Ainda nao ha nenhum Cliente cadastrado!\n");
+            printf("\n-> Ainda nao ha nenhum Cliente cadastrado!\n\n");
         }
         break;
     case 3: 
@@ -192,11 +205,12 @@ int menuClientes() {
         cliente = novoCliente();
         // Verifica se o Cliente foi criado e se foi cadastrado
         if (cliente != NULL && cadastrarCliente(cliente) == 0) {
-            printf("-> Cliente cadastrado com sucesso!\n");
+            system("cls");
+            printf("\n-> Cliente cadastrado com sucesso!\n\n");
         } 
         // Se nao foi cadastrado
         else {
-            printf("-> Erro ao cadastrar Cliente!\n");
+            printf("-> Problema ao cadastrar Cliente!\n");
         }
         break;
     case 4:
@@ -224,6 +238,8 @@ int menuFornecedores() {
     Fornecedor* fornecedor = NULL;
     // Variável de Menu
     int menu = 0;
+    // Variavel de verificação
+    int vf = 0;
     // Exibe o menu
     menuAmbiente("Ambiente Fornecedores");
     // Lê a opção
@@ -239,14 +255,14 @@ int menuFornecedores() {
         // Limpa a tela
         system("cls");
         // Verifica se ha Fornecedores e se tem ja mostra
-        int vf = verFornecedores(1);
+        vf = listarFornecedores(1);
         // Verifica se houve algum problema
         if (vf == 1) {
             printf("-> Problema ao listar Fornecedores!\n");
         } 
         // Verifica se nao ha nenhum Fornecedor
         else if (vf == -1) {
-            printf("-> Ainda nao ha nenhum Fornecedor cadastrado!\n");
+            printf("\n-> Ainda nao ha nenhum Fornecedor cadastrado!\n\n");
         }
         break;
     case 3: 
@@ -254,11 +270,12 @@ int menuFornecedores() {
         fornecedor = novoFornecedor();
         // Verifica se o Fornecedor foi criado e se foi cadastrado
         if (fornecedor != NULL && cadastrarFornecedor(fornecedor) == 0) {
-            printf("-> Fornecedor cadastrado com sucesso!\n");
+            system("cls");
+            printf("\n-> Fornecedor cadastrado com sucesso!\n\n");
         } 
         // Se nao foi cadastrado
         else {
-            printf("-> Erro ao cadastrar Fornecedor!\n");
+            printf("-> Problema ao cadastrar Fornecedor!\n");
         }
         break;
     case 4:
@@ -276,14 +293,14 @@ int menuFornecedores() {
     return menuFornecedores();
 }
 
-
-
 /*
     Menu dos Notas Fiscais:
 */
 int menuNotasFiscais() {
     // Variável de Menu
     int menu = 0;
+    // Variavel de verificação
+    int vf = 0;
     // Exibe o menu
     MenuCompra("Ambiente Nota Fiscal");
     // Lê a opção
@@ -291,12 +308,29 @@ int menuNotasFiscais() {
     // Verifica a opção escolhida
     switch(menu) {
     case 1:
-        realizarCompra();
+        // Limpa a tela
+        system("cls");
+        // Verifica se ha Notas Fiscais e se tem ja mostra
+        vf = listarNotasFiscais(1);
+        // Verifica se houve algum problema
+        if (vf == 1) {
+            printf("-> Problema ao listar as Notas Fiscais!\n");
+        } 
+        // Verifica se nao ha nenhuma Nota Fiscal
+        else if (vf == -1) {
+            printf("\n-> Ainda nao ha nenhuma Nota Fiscal cadastrada!\n\n");
+        }
         break;
     case 2:
-        mostrarNotasFiscais();
+        vf = novaNotaFiscal();
+        if (vf == -1) {
+            printf("-> Voce nao adicionou nenhum item a nota!\n");
+        } else if (vf == 1) {
+            printf("-> Problema ao abrir Nota Fiscal!");
+        }
         break;
     case 3:
+        // Volta a tela anterior
         return 0;
     default:
         printf("-> Opcao invalida!\n");
@@ -305,17 +339,5 @@ int menuNotasFiscais() {
     system("pause");
     return menuNotasFiscais();
 }
-
-NotaFiscal* novaNotaFiscal() {
-    // Aloca Nota Fiscal
-    NotaFiscal* novaNotaFiscal = (NotaFiscal*) malloc(sizeof(NotaFiscal));
-    if (novaNotaFiscal == NULL) {
-        return NULL;
-    }
-    // Compras
-    return novaNotaFiscal;
-}
-
-
 
 #endif

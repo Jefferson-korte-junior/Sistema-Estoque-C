@@ -1,36 +1,16 @@
-jefferson
+moto
+Bruno Alcantara
 2
- agua 
- 4 20.00
- guarana 
- 8 160.00
-180.00
-
-Marciano
+agua
 2
- cola coca 
- 6 90.00
- sprite 
- 12 216.00
-306.00
-
-jefferson
+10.00
+as
 2
- agua
- 1 5.00
- sprite
- 10 180.00
-185.00
-
-jefferson
-1
- agua
- 12 60.00
 60.00
-
-jefferson
-1
- agua
- 12 60.00
-60.00
+70.00
+26/02/2025porco
+Bruno Alcantara
+0
+0.00
+26/02/2025
 

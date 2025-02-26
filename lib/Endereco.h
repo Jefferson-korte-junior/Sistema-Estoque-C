@@ -21,6 +21,12 @@ Endereco* novoEndereco() {
         free(novoEndereco);
         return NULL;
     }
+    // Número
+    printf("> Digite o numero da casa:\n");
+    if (scanf("%d", &novoEndereco->numero) == 0) {
+        free(novoEndereco);
+        return NULL;
+    }
     // Bairro
     printf("> Digite o bairro:\n");
     if (scanf(" %[^\n]", novoEndereco->bairro) == 0) {
@@ -36,12 +42,6 @@ Endereco* novoEndereco() {
     // Estado
     printf("> Digite o estado:\n");
     if (scanf(" %[^\n]", novoEndereco->estado) == 0) {
-        free(novoEndereco);
-        return NULL;
-    }
-    // Número
-    printf("> Digite o numero da casa:\n");
-    if (scanf("%d", &novoEndereco->numero) == 0) {
         free(novoEndereco);
         return NULL;
     }
