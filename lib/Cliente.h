@@ -8,8 +8,65 @@
 #include "Menus.h"
 #include "Structs.h"
 #include "Cliente.h"
+#include "Endereco.h"
 
 #define PATH_CLIENTE "../txt/Clientes.txt"
+
+/*
+    Novo Cliente:
+*/
+Cliente* novoCliente() {
+    // Aloca Cliente
+    Cliente* novoCliente = (Cliente*) malloc(sizeof(Cliente));
+    if (novoCliente == NULL) {
+        return NULL;
+    }
+    // Id
+    if (verClientes(0) == -1) {
+        novoCliente->id = 1;
+    } else {
+        novoCliente->id = verClientes(0) + 1;
+    }
+    system("cls");
+    printf("-> Novo Cliente #%02d\n\n", novoCliente->id);
+    // Nome
+    printf("> Digite o nome:\n");
+    if (scanf(" %[^\n]", novoCliente->nome) == 0 || strlen(novoCliente->nome) <= 0) {
+        free(novoCliente);
+        return NULL;
+    }
+    // Cnpj
+    printf("> Digite o CPF: (SOMENTE NUMEROS)\n");
+    if (scanf(" %s", novoCliente->cpf) == 0 || strlen(novoCliente->cpf) != 11) {
+        free(novoCliente);
+        return NULL;
+    }
+    // Telefone
+    printf("> Digite o Telefone:\n");
+    if (scanf(" %s", novoCliente->telefone) == 0 || (strlen(novoCliente->telefone) <= 0)) {
+        free(novoCliente);
+        return NULL;
+    }
+    // Endereço
+    novoCliente->endereco = novoEndereco();
+    if (novoCliente->endereco == NULL) {
+        free(novoCliente);
+        return NULL;
+    }
+    // Email
+    printf("> Digite o email:\n");
+    if (scanf(" %s", novoCliente->email) == 0 || (strlen(novoCliente->email) <= 0 || strstr(novoCliente->email, "@") == NULL)) {
+        free(novoCliente);
+        return NULL;
+    }
+    // Data de Cadastro
+    time_t t = time(NULL);
+    struct tm tm = *localtime(&t);
+    novoCliente->dataCadastro.dia = tm.tm_mday;
+    novoCliente->dataCadastro.mes = tm.tm_mon + 1;
+    novoCliente->dataCadastro.ano = tm.tm_year + 1900;
+    return novoCliente;
+}
 
 int editarCliente() {
     char cpf[15];

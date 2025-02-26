@@ -21,7 +21,7 @@ int menuFornecedores();
 Fornecedor* novoFornecedor();
 int menuNotasFiscais();
 NotaFiscal* novaNotaFiscal();
-Endereco* novoEndereco();
+
 
 /*
     Cabecalho:
@@ -154,61 +154,7 @@ int menuEstoque() {
     return menuEstoque();
 }
 
-/*
-    Novo Produto:
-*/
-Produto* novoProduto() {
-    // Aloca Produto
-    Produto* novoProduto = (Produto*) malloc(sizeof(Produto));
-    if (novoProduto == NULL) {
-        return NULL;
-    }
-    // Id
-    if (verEstoque(0) == -1) {
-        novoProduto->id = 1;
-    } else {
-        novoProduto->id = verEstoque(0) + 1;
-    }
-    system("cls");
-    printf("-> Novo Produto #%02d\n\n", novoProduto->id);
-    // Nome
-    printf("> Digite o nome:\n");
-    if (scanf(" %[^\n]", novoProduto->nome) == 0) {
-        free(novoProduto);
-        return NULL;
-    }
-    // Valor Compra
-    printf("> Digite o valor de Compra:\n");
-    if (scanf("%f", &novoProduto->valorCompra) == 0) {
-        free(novoProduto);
-        return NULL;
-    }
-    // Valor Venda
-    printf("> Digite o valor de Venda:\n");
-    if (scanf("%f", &novoProduto->valorVenda) == 0) {
-        free(novoProduto);
-        return NULL;
-    }
-    // Valor Venda
-    printf("> Digite a quantidade em Estoque:\n");
-    if (scanf("%d", &novoProduto->qtd) == 0) {
-        free(novoProduto);
-        return NULL;
-    }
-    // Valor de Lucro
-    novoProduto->lucro = novoProduto->valorVenda - novoProduto->valorCompra;
-    if (novoProduto->lucro < 0) {
-        free(novoProduto);
-        return NULL;
-    }
-    // Data de Cadastro
-    time_t t = time(NULL);
-    struct tm tm = *localtime(&t);
-    novoProduto->dataCadastro.dia = tm.tm_mday;
-    novoProduto->dataCadastro.mes = tm.tm_mon + 1;
-    novoProduto->dataCadastro.ano = tm.tm_year + 1900;
-    return novoProduto;
-}
+
 
 /*
     Menu dos Clientes:
@@ -268,61 +214,7 @@ int menuClientes() {
     return menuClientes();
 }
 
-/*
-    Novo Cliente:
-*/
-Cliente* novoCliente() {
-    // Aloca Cliente
-    Cliente* novoCliente = (Cliente*) malloc(sizeof(Cliente));
-    if (novoCliente == NULL) {
-        return NULL;
-    }
-    // Id
-    if (verClientes(0) == -1) {
-        novoCliente->id = 1;
-    } else {
-        novoCliente->id = verClientes(0) + 1;
-    }
-    system("cls");
-    printf("-> Novo Cliente #%02d\n\n", novoCliente->id);
-    // Nome
-    printf("> Digite o nome:\n");
-    if (scanf(" %[^\n]", (*novoCliente).nome) == 0) {
-        free(novoCliente);
-        return NULL;
-    }
-    // Cnpj
-    printf("> Digite o CPF:\n");
-    if (scanf(" %s", (*novoCliente).cpf) == 0) {
-        free(novoCliente);
-        return NULL;
-    }
-    // Telefone
-    printf("> Digite o Telefone:\n");
-    if (scanf(" %s", (*novoCliente).telefone) == 0) {
-        free(novoCliente);
-        return NULL;
-    }
-    // Endereço
-    (*novoCliente).endereco = novoEndereco();
-    if ((*novoCliente).endereco == NULL) {
-        free(novoCliente);
-        return NULL;
-    }
-    // Email
-    printf("> Digite o email:\n");
-    if (scanf(" %s", (*novoCliente).email) == 0) {
-        free(novoCliente);
-        return NULL;
-    }
-    // Data de Cadastro
-    time_t t = time(NULL);
-    struct tm tm = *localtime(&t);
-    (*novoCliente).dataCadastro.dia = tm.tm_mday;
-    (*novoCliente).dataCadastro.mes = tm.tm_mon + 1;
-    (*novoCliente).dataCadastro.ano = tm.tm_year + 1900;
-    return novoCliente;
-}
+
 
 /*
     Menu dos Fornecedores:
@@ -384,61 +276,7 @@ int menuFornecedores() {
     return menuFornecedores();
 }
 
-/*
-    Novo Fornecedor:
-*/
-Fornecedor* novoFornecedor() {
-    // Aloca Fornecedor
-    Fornecedor* novoFornecedor = (Fornecedor*) malloc(sizeof(Fornecedor));
-    if (novoFornecedor == NULL) {
-        return NULL;
-    }
-    // Id
-    if (verFornecedores(0) == -1) {
-        novoFornecedor->id = 1;
-    } else {
-        novoFornecedor->id = verFornecedores(0) + 1;
-    }
-    system("cls");
-    printf("-> Fornecedor #%02d\n\n", novoFornecedor->id);
-    // Nome Fantasia
-    printf("> Digite o nome Fantasia:\n");
-    if (scanf(" %[^\n]", (*novoFornecedor).nomeFantasia) == 0) {
-        free(novoFornecedor);
-        return NULL;
-    }
-    // Cnpj
-    printf("> Digite o CNPJ:\n");
-    if (scanf(" %s", (*novoFornecedor).cnpj) == 0) {
-        free(novoFornecedor);
-        return NULL;
-    }
-    // Telefone
-    printf("> Digite o Telefone:\n");
-    if (scanf(" %s", (*novoFornecedor).telefone) == 0) {
-        free(novoFornecedor);
-        return NULL;
-    }
-    // Endereço
-    (*novoFornecedor).endereco = novoEndereco();
-    if ((*novoFornecedor).endereco == NULL) {
-        free(novoFornecedor);
-        return NULL;
-    }
-    // Email
-    printf("> Digite o email:\n");
-    if (scanf(" %s", (*novoFornecedor).email) == 0) {
-        free(novoFornecedor);
-        return NULL;
-    }
-    // Data de Cadastro
-    time_t t = time(NULL);
-    struct tm tm = *localtime(&t);
-    (*novoFornecedor).dataCadastro.dia = tm.tm_mday;
-    (*novoFornecedor).dataCadastro.mes = tm.tm_mon + 1;
-    (*novoFornecedor).dataCadastro.ano = tm.tm_year + 1900;
-    return novoFornecedor;
-}
+
 
 /*
     Menu dos Notas Fiscais:
@@ -478,46 +316,6 @@ NotaFiscal* novaNotaFiscal() {
     return novaNotaFiscal;
 }
 
-/*
-    Novo Endereço:
-*/
-Endereco* novoEndereco() {
-    // Aloca memória para o endereço
-    Endereco* novoEndereco = (Endereco*) malloc(sizeof(Endereco));
-    if (novoEndereco == NULL) {
-        return NULL;
-    }
-    // Rua
-    printf("> Digite a rua:\n");
-    if (scanf(" %[^\n]", novoEndereco->rua) == 0) {
-        free(novoEndereco);
-        return NULL;
-    }
-    // Bairro
-    printf("> Digite o bairro:\n");
-    if (scanf(" %[^\n]", novoEndereco->bairro) == 0) {
-        free(novoEndereco);
-        return NULL;
-    }
-    // Cidade
-    printf("> Digite a cidade:\n");
-    if (scanf(" %[^\n]", novoEndereco->cidade) == 0) {
-        free(novoEndereco);
-        return NULL;
-    }
-    // Estado
-    printf("> Digite o estado:\n");
-    if (scanf(" %[^\n]", novoEndereco->estado) == 0) {
-        free(novoEndereco);
-        return NULL;
-    }
-    // Número
-    printf("> Digite o numero da casa:\n");
-    if (scanf("%d", &novoEndereco->numero) == 0) {
-        free(novoEndereco);
-        return NULL;
-    }
-    return novoEndereco;
-}
+
 
 #endif

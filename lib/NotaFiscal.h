@@ -11,22 +11,20 @@
 #define PATH_NOTAS_FISCAIS "../txt/NotasFiscais.txt"
 
 void realizarCompra() {
-    system("cls");
     char cpf[15];
-    printf("Digite o CPF do cliente: ");
+    system("cls");
+    printf("> Digite o CPF do cliente: ");
     scanf(" %s", cpf);
-
     // Variável de verificação
     int clienteEncontrado = 0;
     Cliente cliente;
     cliente.endereco = (Endereco*) malloc(sizeof(Endereco));
     FILE* txtCliente = fopen("../txt/Clientes.txt", "r");
     if (txtCliente == NULL || cliente.endereco == NULL) {
-        printf("Erro ao abrir o arquivo de clientes.\n");
+        printf("-> Erro ao abrir o arquivo de clientes.\n");
         free(cliente.endereco);
         return;
     }
-
     // Busca o cliente pelo CPF
     while (fscanf(txtCliente, " %[^\n]", cliente.nome) != EOF) {
         fscanf(txtCliente, " %s", cliente.cpf);
@@ -45,12 +43,15 @@ void realizarCompra() {
     }
     fclose(txtCliente);
 
+    system("cls");
     if (!clienteEncontrado) {
-        printf("Cliente não encontrado.\n");
+        printf("-> Cliente não encontrado.\n");
         free(cliente.endereco);
         return;
     }
-    printf("\n/////////////////////////////////////////////////\n");
+
+    printf("\n-> Cliente encontrado:\n\n");
+    printf("/////////////////////////////////////////////////\n");
     printf("[CLIENTE]: %s\n", cliente.nome);
     printf("/////////////////////////////////////////////////\n\n");
     float valorTotal = 0;
@@ -61,38 +62,41 @@ void realizarCompra() {
 
     while (1) {
         char continuar;
-        printf("Deseja adicionar um produto? (Digite 's' para continuar e 'n' para sair): ");
+        printf("> Deseja adicionar um produto? (Digite 's' para continuar e 'n' para sair): ");
         scanf(" %c", &continuar);
         if (continuar == 'n' || continuar == 'N') {
             break;
-        }
-        else if(continuar == 's' || continuar == 'S') {
+        } else if(continuar == 's' || continuar == 'S') {
             qtdPedidos++;
             produtosComprados = (Produto*) realloc(produtosComprados, (numProdutos + 1) * sizeof(Produto));
             quantidades = (int*) realloc(quantidades, (numProdutos + 1) * sizeof(int));
             if (produtosComprados == NULL || quantidades == NULL) {
-                printf("Erro de alocação de memória.\n");
+                printf("-> Erro de alocação de memória.\n");
                 free(cliente.endereco);
                 free(produtosComprados);
                 free(quantidades);
                 return;
             }
-
+            // Mostra a Lista de Produtos para o Usuário visualizar
+            system("cls");
+            printf("\n-> Produtos a selecionar:\n\n");
+            verEstoque(1);
+            // Solicita o Produto e Quantidade
             char nomeProduto[50];
             int quantidade;
-            printf("Digite o nome do produto #%d: ", numProdutos + 1);
+            printf("> [Adicionar] Digite o nome do produto:\n");
             scanf(" %[^\n]", nomeProduto);
-            printf("Digite a quantidade do produto #%d: ", numProdutos + 1);
+            printf("> [Adicionar] Digite quantas unidades deseja:\n");
             scanf("%d", &quantidade);
-
             // Variável de verificação
             int produtoEncontrado = 0;
+            // Variável Produto
             Produto produto;
+            // Arquivos
             FILE* txtProduto = fopen("../txt/Estoque.txt", "r");
             FILE* tempProduto = fopen("../txt/temp.txt", "w");
-
             if (txtProduto == NULL || tempProduto == NULL) {
-                printf("Erro ao abrir o arquivo de produtos.\n");
+                printf("-> Erro ao abrir o arquivo de produtos.\n");
                 free(cliente.endereco);
                 free(produtosComprados);
                 free(quantidades);
@@ -100,7 +104,6 @@ void realizarCompra() {
                 if (tempProduto != NULL) fclose(tempProduto);
                 return;
             }
-
             // Busca o produto pelo nome e atualiza a quantidade no estoque
             while (fscanf(txtProduto, " %[^\n]", produto.nome) != EOF) {
                 fscanf(txtProduto, " %f", &produto.valorCompra);
@@ -125,6 +128,7 @@ void realizarCompra() {
             fclose(txtProduto);
             fclose(tempProduto);
 
+            system("cls");
             if (!produtoEncontrado) {
                 printf("Produto %s não encontrado ou sem estoque suficiente.\n", nomeProduto);
                 remove("../txt/temp.txt");
@@ -134,17 +138,19 @@ void realizarCompra() {
                 return;
             }
 
+            printf("\n-> Produto adicionado na Nota Fiscal com sucesso!\n\n");
+            system("pause && cls");
+
             remove("../txt/Estoque.txt");
             rename("../txt/temp.txt", "../txt/Estoque.txt");
-        }
-        else{
+        } else {
             printf("Opcao invalida, digite novamente!\n");
         }
     }
     system("cls");
-    printf("\nCompra realizada com sucesso!\n");
+    printf("\n-> Nota Fiscal finalizada com sucesso!\n\n");
     printf("Cliente: %s\n", cliente.nome);
-    printf("Quantidade de pedidos: %d\n", qtdPedidos);
+    printf("Quantidade de pedidos: %d\n\n", qtdPedidos);
     printf("Produtos comprados:\n");
     for (int i = 0; i < numProdutos; i++) {
         printf(" - %s (Quantidade: %d): R$%.2f\n", produtosComprados[i].nome, quantidades[i], produtosComprados[i].valorVenda * quantidades[i]);
@@ -175,6 +181,9 @@ void realizarCompra() {
     free(quantidades);
 }
 
+/*
+    Mostra as Notas Fiscais:
+*/
 void mostrarNotasFiscais() {
     system("cls");
     FILE* txt = fopen(PATH_NOTAS_FISCAIS, "r");

@@ -7,8 +7,65 @@
 
 #include "Structs.h"
 #include "Menus.h"	
+#include "Endereco.h"
 
 #define PATH_PRODUTO "../txt/Estoque.txt"
+
+/*
+    Novo Produto:
+*/
+Produto* novoProduto() {
+    // Aloca Produto
+    Produto* novoProduto = (Produto*) malloc(sizeof(Produto));
+    if (novoProduto == NULL) {
+        return NULL;
+    }
+    // Id
+    if (verEstoque(0) == -1) {
+        novoProduto->id = 1;
+    } else {
+        novoProduto->id = verEstoque(0) + 1;
+    }
+    system("cls");
+    printf("-> Novo Produto #%02d\n\n", novoProduto->id);
+    // Nome
+    printf("> Digite o nome:\n");
+    if (scanf(" %[^\n]", novoProduto->nome) == 0 || strlen(novoProduto->nome) <= 0) {
+        free(novoProduto);
+        return NULL;
+    }
+    // Valor Compra
+    printf("> Digite o valor de Compra:\n");
+    if (scanf("%f", &novoProduto->valorCompra) == 0 || novoProduto->valorCompra <= 0) {
+        free(novoProduto);
+        return NULL;
+    }
+    // Valor Venda
+    printf("> Digite o valor de Venda:\n");
+    if (scanf("%f", &novoProduto->valorVenda) == 0 || novoProduto->valorVenda < novoProduto->valorCompra) {
+        free(novoProduto);
+        return NULL;
+    }
+    // Valor Venda
+    printf("> Digite a quantidade em Estoque:\n");
+    if (scanf("%d", &novoProduto->qtd) == 0 || novoProduto->qtd <= 0) {
+        free(novoProduto);
+        return NULL;
+    }
+    // Valor de Lucro
+    novoProduto->lucro = novoProduto->valorVenda - novoProduto->valorCompra;
+    if (novoProduto->lucro < 0) {
+        free(novoProduto);
+        return NULL;
+    }
+    // Data de Cadastro
+    time_t t = time(NULL);
+    struct tm tm = *localtime(&t);
+    novoProduto->dataCadastro.dia = tm.tm_mday;
+    novoProduto->dataCadastro.mes = tm.tm_mon + 1;
+    novoProduto->dataCadastro.ano = tm.tm_year + 1900;
+    return novoProduto;
+}
 
 int editarProduto() {
     char nome[35];

@@ -5,8 +5,65 @@
 #include <stdlib.h>
 
 #include "Structs.h"
+#include "Endereco.h"
 
 #define PATH_FORNECEDOR "../txt/Fornecedores.txt"
+
+/*
+    Novo Fornecedor:
+*/
+Fornecedor* novoFornecedor() {
+    // Aloca Fornecedor
+    Fornecedor* novoFornecedor = (Fornecedor*) malloc(sizeof(Fornecedor));
+    if (novoFornecedor == NULL) {
+        return NULL;
+    }
+    // Id
+    if (verFornecedores(0) == -1) {
+        novoFornecedor->id = 1;
+    } else {
+        novoFornecedor->id = verFornecedores(0) + 1;
+    }
+    system("cls");
+    printf("-> Fornecedor #%02d\n\n", novoFornecedor->id);
+    // Nome Fantasia
+    printf("> Digite o nome Fantasia:\n");
+    if (scanf(" %[^\n]", (*novoFornecedor).nomeFantasia) == 0 || strlen((*novoFornecedor).nomeFantasia) <= 0) {
+        free(novoFornecedor);
+        return NULL;
+    }
+    // Cnpj
+    printf("> Digite o CNPJ:\n");
+    if (scanf(" %s", (*novoFornecedor).cnpj) == 0 || strlen((*novoFornecedor).cnpj) != 11) {
+        free(novoFornecedor);
+        return NULL;
+    }
+    // Telefone
+    printf("> Digite o Telefone:\n");
+    if (scanf(" %s", (*novoFornecedor).telefone) == 0 || (strlen((*novoFornecedor).telefone) <= 0)) {
+        free(novoFornecedor);
+        return NULL;
+    }
+    // Endereço
+    (*novoFornecedor).endereco = novoEndereco();
+    if ((*novoFornecedor).endereco == NULL || (strlen((*novoFornecedor).endereco->rua) < 0)) {
+        free(novoFornecedor);
+        return NULL;
+    }
+    // Email
+    printf("> Digite o email:\n");
+    if (scanf(" %s", (*novoFornecedor).email) == 0 || (strlen(novoFornecedor->email) <= 0 || strstr(novoFornecedor->email, "@") == NULL)) {
+        free(novoFornecedor);
+        return NULL;
+    }
+    // Data de Cadastro
+    time_t t = time(NULL);
+    struct tm tm = *localtime(&t);
+    (*novoFornecedor).dataCadastro.dia = tm.tm_mday;
+    (*novoFornecedor).dataCadastro.mes = tm.tm_mon + 1;
+    (*novoFornecedor).dataCadastro.ano = tm.tm_year + 1900;
+    return novoFornecedor;
+}
 
 /*
     Função para editar fornecedor.
