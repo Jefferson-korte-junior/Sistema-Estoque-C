@@ -67,6 +67,7 @@ Produto* novoProduto() {
     return novoProduto;
 }
 
+// Função para editar um produto
 int editarProduto() {
     char nome[35];
     printf("////////////////////////////////////////////\n");
@@ -137,6 +138,7 @@ int editarProduto() {
     return 0;
 }
 
+//Função para buscar produto
 int buscarProduto(){
     char nome[30];
     printf("Digite o nome do Produto: ");
